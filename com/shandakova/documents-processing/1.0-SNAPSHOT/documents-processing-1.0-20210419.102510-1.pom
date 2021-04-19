@@ -10,7 +10,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>notification-module</artifactId>
+    <artifactId>documents-processing</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
