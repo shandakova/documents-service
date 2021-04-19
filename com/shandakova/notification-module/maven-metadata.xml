@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
   <groupId>com.shandakova</groupId>
-  <artifactId>configuration-module</artifactId>
+  <artifactId>notification-module</artifactId>
   <versioning>
     <versions>
       <version>1.0-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20210419102339</lastUpdated>
+    <lastUpdated>20210419102424</lastUpdated>
   </versioning>
 </metadata>
