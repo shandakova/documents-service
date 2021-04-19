@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
   <groupId>com.shandakova</groupId>
-  <artifactId>documents-service</artifactId>
+  <artifactId>core</artifactId>
   <versioning>
     <versions>
       <version>1.0-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20210419102206</lastUpdated>
+    <lastUpdated>20210419102244</lastUpdated>
   </versioning>
 </metadata>
