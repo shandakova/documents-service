@@ -5,5 +5,5 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Directory extends Nodes {
+public class Directory extends Node {
 }

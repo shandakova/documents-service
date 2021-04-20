@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Document extends Nodes {
+public class Document extends Node {
     private String description;
     private int type_id;
     private Importance importance;
