@@ -1,6 +1,6 @@
-package entities;
+package com.shandakova.documents.entities;
 
-import entities.enums.Access;
+import com.shandakova.documents.entities.enums.Access;
 import lombok.Getter;
 import lombok.Setter;
 

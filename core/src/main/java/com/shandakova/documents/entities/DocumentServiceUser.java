@@ -1,12 +1,12 @@
-package entities;
+package com.shandakova.documents.entities;
 
-import entities.enums.Role;
+import com.shandakova.documents.entities.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class User {
+public class DocumentServiceUser {
     private int id;
     private String login;
     private String passwordHash;

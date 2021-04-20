@@ -1,4 +1,4 @@
-package entities.enums;
+package com.shandakova.documents.entities.enums;
 
 public enum Importance {
     HIGH,
