@@ -9,7 +9,7 @@ import lombok.Setter;
 public class Permission {
     private int id;
     private int userId;
-    private int objectId;
+    private int nodeId;
     private Access access;
 
 }
