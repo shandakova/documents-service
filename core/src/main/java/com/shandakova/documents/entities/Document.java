@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class Document extends Node {
     private String description;
-    private int type_id;
+    private int typeId;
     private Importance importance;
-    private int version_number;
+    private int versionNumber;
 }
