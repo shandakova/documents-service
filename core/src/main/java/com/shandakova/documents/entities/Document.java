@@ -11,4 +11,6 @@ public class Document extends Node {
     private int typeId;
     private Importance importance;
     private int versionNumber;
+    private boolean verified;
+    private Integer previousVersionId;
 }

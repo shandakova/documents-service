@@ -11,6 +11,6 @@ public abstract class Node {
     private int id;
     private String name;
     private boolean available;
-    private int parentId;
+    private Integer parentId;
     private LocalDateTime creationDateTime;
 }
