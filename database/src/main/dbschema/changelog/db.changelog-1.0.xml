@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="default-values-for-admin" author="ingimar">
+    <changeSet id="2" author="shandakova">
         <sqlFile path="src/main/dbschema/sql/database-creation.sql"/>
     </changeSet>
 </databaseChangeLog>
