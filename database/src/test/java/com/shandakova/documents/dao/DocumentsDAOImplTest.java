@@ -1,6 +1,10 @@
 package com.shandakova.documents.dao;
 
 import com.shandakova.documents.ConnectionPool;
+import com.shandakova.documents.dao.implementation.DocumentTypeDAOImpl;
+import com.shandakova.documents.dao.implementation.DocumentsDAOImpl;
+import com.shandakova.documents.dao.interfaces.DocumentTypeDAO;
+import com.shandakova.documents.dao.interfaces.DocumentsDAO;
 import com.shandakova.documents.entities.Document;
 import com.shandakova.documents.entities.enums.Importance;
 import org.junit.After;
@@ -14,15 +18,15 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class DocumentsDAOTest {
+public class DocumentsDAOImplTest {
     private DocumentsDAO documentsDAO;
     private DocumentTypeDAO documentTypeDAO;
 
     @Before
     public void init() throws SQLException, IOException {
         ConnectionPool connectionPool = ConnectionPool.getInstanceByProperties("database.properties");
-        documentsDAO = new DocumentsDAO(connectionPool);
-        documentTypeDAO = new DocumentTypeDAO(connectionPool);
+        documentsDAO = new DocumentsDAOImpl(connectionPool);
+        documentTypeDAO = new DocumentTypeDAOImpl(connectionPool);
         documentsDAO.deleteAll();
     }
 
@@ -39,7 +43,7 @@ public class DocumentsDAOTest {
         assertEquals(document.getName(), created.getName());
         assertEquals(document.getDescription(), created.getDescription());
         assertEquals(document.getImportance(), created.getImportance());
-        assertEquals(0, created.getVersionNumber());
+        assertEquals(0, created.getVersionNumber().intValue());
         assertNull(created.getPreviousVersionId());
         assertNotNull(created.getCreationDateTime());
     }
@@ -65,9 +69,9 @@ public class DocumentsDAOTest {
         }
         assertNotNull(newVersionDB.getPreviousVersionId());
         assertNull(oldVersionDB.getPreviousVersionId());
-        assertEquals((int) newVersionDB.getPreviousVersionId(), oldVersionDB.getId());
+        assertEquals((int) newVersionDB.getPreviousVersionId(), oldVersionDB.getId().intValue());
         assertEquals(newVersionDB.getName(), oldVersionDB.getName());
-        assertEquals(1, newVersionDB.getVersionNumber());
+        assertEquals(1, newVersionDB.getVersionNumber().intValue());
         assertEquals(newVersion.getImportance(), newVersionDB.getImportance());
         assertEquals(newVersion.getDescription(), newVersionDB.getDescription());
     }

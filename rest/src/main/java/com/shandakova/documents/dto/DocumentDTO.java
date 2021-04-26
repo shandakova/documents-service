@@ -1,16 +1,17 @@
-package com.shandakova.documents.entities;
+package com.shandakova.documents.dto;
 
+import com.shandakova.documents.entities.Node;
 import com.shandakova.documents.entities.enums.Importance;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Document extends Node {
+@NoArgsConstructor
+public class DocumentDTO extends Node {
     private String description;
     private Integer typeId;
     private Importance importance;
     private Integer versionNumber;
-    private boolean verified;
-    private Integer previousVersionId;
 }

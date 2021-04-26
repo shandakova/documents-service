@@ -2,6 +2,7 @@ package com.shandakova.documents.dao;
 
 
 import com.shandakova.documents.ConnectionPool;
+import com.shandakova.documents.dao.implementation.DocumentTypeDAOImpl;
 import com.shandakova.documents.entities.DocumentType;
 import org.junit.After;
 import org.junit.Before;
@@ -17,13 +18,13 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class DocumentTypeDAOTest {
-    private DocumentTypeDAO documentTypeDAO;
+    private DocumentTypeDAOImpl documentTypeDAO;
     private ConnectionPool connectionPool;
 
     @Before
     public void initDAO() throws SQLException, IOException {
         connectionPool = ConnectionPool.getInstanceByProperties("database.properties");
-        documentTypeDAO = new DocumentTypeDAO(connectionPool);
+        documentTypeDAO = new DocumentTypeDAOImpl(connectionPool);
     }
 
     @After
@@ -52,7 +53,7 @@ public class DocumentTypeDAOTest {
     }
 
     private String findTypeNameByIdInList(int id, List<DocumentType> types) {
-        return types.stream().filter(documentType -> documentType.getId() == id)
+        return types.stream().filter(documentType -> documentType.getId().equals(id))
                 .findFirst().orElseThrow(() -> new RuntimeException("There are no type with id:" + id)).getName();
     }
 

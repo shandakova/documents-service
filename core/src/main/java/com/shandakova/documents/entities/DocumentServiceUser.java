@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DocumentServiceUser {
-    private int id;
+    private Integer id;
     private String login;
     private String passwordHash;
     private Role role;

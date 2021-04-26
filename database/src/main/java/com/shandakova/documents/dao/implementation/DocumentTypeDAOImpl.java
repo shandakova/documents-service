@@ -1,7 +1,9 @@
-package com.shandakova.documents.dao;
+package com.shandakova.documents.dao.implementation;
 
 import com.shandakova.documents.ConnectionPool;
+import com.shandakova.documents.dao.interfaces.DocumentTypeDAO;
 import com.shandakova.documents.entities.DocumentType;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,20 +12,22 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DocumentTypeDAO {
+@Slf4j
+public class DocumentTypeDAOImpl implements DocumentTypeDAO {
     private final ConnectionPool connectionPool;
+    private final String SELECT_ALL_TYPES = "SELECT * FROM types";
 
-    public DocumentTypeDAO(ConnectionPool connectionPool) {
+    public DocumentTypeDAOImpl(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 
     public List<DocumentType> getAll() throws SQLException {
         Connection connection = connectionPool.getConnection();
         Statement statement = connection.createStatement();
-        String SELECT_ALL_TYPES = "SELECT * FROM types";
         statement.execute(SELECT_ALL_TYPES);
         ResultSet res = statement.getResultSet();
         connectionPool.returnConnection(connection);
+        log.info("Get all types.");
         return parseResultListTypes(res);
     }
 

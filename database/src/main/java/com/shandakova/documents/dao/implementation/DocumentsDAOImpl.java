@@ -1,60 +1,74 @@
-package com.shandakova.documents.dao;
+package com.shandakova.documents.dao.implementation;
 
 import com.shandakova.documents.ConnectionPool;
+import com.shandakova.documents.dao.interfaces.DocumentsDAO;
 import com.shandakova.documents.entities.Document;
 import com.shandakova.documents.entities.enums.Importance;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DocumentsDAO {
+@Slf4j
+public class DocumentsDAOImpl implements DocumentsDAO {
     private final ConnectionPool connectionPool;
+    private final String CREATE_NODE = "INSERT INTO nodes (name,parent_id,available,creation_datetime) " +
+            "VALUES (?,?,?,NOW());";
+    private final String CREATE_DOCUMENT = "INSERT INTO documents " +
+            "VALUES(currval('table_nodes_id_seq'),?,?,CAST(? AS importance_type),?,?,?);";
+    private final String SELECT_ALL_DOC_WITH_ORDER = "SELECT * FROM nodes n INNER JOIN documents doc ON doc.id=n.id " +
+            "WHERE %s ORDER BY creation_datetime %s ;";
+    private final String SELECT_ALL_DOCUMENTS = "SELECT * FROM nodes n INNER JOIN documents d ON n.id=d.id;";
 
-    public DocumentsDAO(ConnectionPool connectionPool) {
+    private final String DELETE_ALL_DOCUMENTS = "DELETE FROM nodes WHERE id IN (SELECT id from documents);";
+
+    public DocumentsDAOImpl(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 
     private void create(Document document, boolean isNew) throws SQLException {
         Connection connection = connectionPool.getConnection();
         connection.setAutoCommit(false);
-        String CREATE_NODE = "INSERT INTO nodes (name,parent_id,available,creation_datetime) " +
-                "VALUES (?,?,?,NOW());";
+        commitDocument(document, isNew, connection);
+        connection.setAutoCommit(true);
+        connectionPool.returnConnection(connection);
+    }
+
+    private void commitDocument(Document document, boolean isNew, Connection connection) throws SQLException {
         PreparedStatement insertNode = connection.prepareStatement(CREATE_NODE);
         fillNodeByDocument(document, insertNode);
         insertNode.execute();
-        String CREATE_DOCUMENT = "INSERT INTO documents VALUES(currval('table_nodes_id_seq'),?,?,CAST(? AS importance_type),?,?,?);";
         PreparedStatement insertDocument = connection.prepareStatement(CREATE_DOCUMENT);
         fillStatementByDocument(document, insertDocument, isNew);
         insertDocument.execute();
         connection.commit();
-        connection.setAutoCommit(true);
-        connectionPool.returnConnection(connection);
     }
 
     public List<Document> findAllDocumentsByParentId(Integer id, boolean isDescOrder) throws SQLException {
         Connection connection = connectionPool.getConnection();
         String condition = id == null ? "parent_id IS NULL" : "parent_id=" + id;
         String order = isDescOrder ? "DESC" : "ASC";
-        String SELECT_ALL_DOC_WITH_ORDER = "SELECT * FROM nodes n INNER JOIN documents doc ON doc.id=n.id " +
-                "WHERE %s ORDER BY creation_datetime %s ;";
         String statement = String.format(SELECT_ALL_DOC_WITH_ORDER, condition, order);
         PreparedStatement findDir = connection.prepareStatement(statement);
         findDir.execute();
         ResultSet resultSet = findDir.getResultSet();
         connectionPool.returnConnection(connection);
+        log.info("Find all documents by parent id " + id);
         return getListDocumentsFromResultSet(resultSet);
     }
 
     public void createNewDocument(Document document) throws SQLException {
         create(document, true);
+        log.info("Create document " + document.getName());
     }
 
     public void createNewVersionByDocument(Document oldVersion, Document newVersion) throws SQLException {
         newVersion.setPreviousVersionId(oldVersion.getId());
         newVersion.setVersionNumber(oldVersion.getVersionNumber() + 1);
         create(newVersion, false);
+        log.info("Create new version of document " + oldVersion.getName() + " with id" + oldVersion.getId());
     }
 
     private void fillStatementByDocument(Document document, PreparedStatement insertDocument, boolean isNew)
@@ -85,10 +99,10 @@ public class DocumentsDAO {
     public List<Document> findAll() throws SQLException {
         Connection connection = connectionPool.getConnection();
         Statement statement = connection.createStatement();
-        String SELECT_ALL_DOCUMENTS = "SELECT * FROM nodes n INNER JOIN documents d ON n.id=d.id;";
         statement.execute(SELECT_ALL_DOCUMENTS);
         ResultSet res = statement.getResultSet();
         connectionPool.returnConnection(connection);
+        log.info("Find all documents.");
         return getListDocumentsFromResultSet(res);
     }
 
@@ -120,8 +134,8 @@ public class DocumentsDAO {
 
     public void deleteAll() throws SQLException {
         Connection connection = connectionPool.getConnection();
-        String DELETE_ALL_DOCUMENTS = "DELETE FROM nodes WHERE id IN (SELECT id from documents);";
         connection.createStatement().execute(DELETE_ALL_DOCUMENTS);
         connectionPool.returnConnection(connection);
+        log.info("Delete all documents");
     }
 }

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class DocumentFile {
-    private int id;
+    private Integer id;
     private LocalDateTime creationDateTime;
-    private int documentId;
+    private Integer documentId;
 }

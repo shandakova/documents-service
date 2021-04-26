@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Permission {
-    private int id;
-    private int userId;
-    private int nodeId;
+    private Integer id;
+    private Integer userId;
+    private Integer nodeId;
     private Access access;
 
 }

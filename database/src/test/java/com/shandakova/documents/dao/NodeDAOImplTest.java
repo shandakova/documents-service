@@ -1,6 +1,13 @@
 package com.shandakova.documents.dao;
 
 import com.shandakova.documents.ConnectionPool;
+import com.shandakova.documents.dao.implementation.DirectoriesDAOImpl;
+import com.shandakova.documents.dao.implementation.DocumentTypeDAOImpl;
+import com.shandakova.documents.dao.implementation.DocumentsDAOImpl;
+import com.shandakova.documents.dao.implementation.NodeDAOImpl;
+import com.shandakova.documents.dao.interfaces.DirectoriesDAO;
+import com.shandakova.documents.dao.interfaces.DocumentTypeDAO;
+import com.shandakova.documents.dao.interfaces.DocumentsDAO;
 import com.shandakova.documents.entities.Directory;
 import com.shandakova.documents.entities.Document;
 import com.shandakova.documents.entities.Node;
@@ -17,8 +24,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class NodeDAOTest {
-    NodeDAO nodeDAO;
+public class NodeDAOImplTest {
+    NodeDAOImpl nodeDAO;
     DocumentsDAO documentsDAO;
     DirectoriesDAO directoriesDAO;
     DocumentTypeDAO documentTypeDAO;
@@ -26,10 +33,10 @@ public class NodeDAOTest {
     @Before
     public void init() throws SQLException, IOException {
         ConnectionPool connectionPool = ConnectionPool.getInstanceByProperties("database.properties");
-        documentsDAO = new DocumentsDAO(connectionPool);
-        directoriesDAO = new DirectoriesDAO(connectionPool);
-        documentTypeDAO = new DocumentTypeDAO(connectionPool);
-        nodeDAO = new NodeDAO(connectionPool);
+        documentsDAO = new DocumentsDAOImpl(connectionPool);
+        directoriesDAO = new DirectoriesDAOImpl(connectionPool);
+        documentTypeDAO = new DocumentTypeDAOImpl(connectionPool);
+        nodeDAO = new NodeDAOImpl(connectionPool);
     }
 
     @After

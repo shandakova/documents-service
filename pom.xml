@@ -16,9 +16,15 @@
         <junit.version>4.13.2</junit.version>
         <lombok.version>1.18.20</lombok.version>
         <logback.version>1.1.7</logback.version>
-        <liquibase.version>3.0.7</liquibase.version>
+        <slf4j.version>1.7.30</slf4j.version>
         <liquibase.version>3.0.7</liquibase.version>
         <jdbc.version>42.2.19</jdbc.version>
+        <javax.servlet.version>2.5</javax.servlet.version>
+        <com.fasterxml.jackson.core.version>2.11.0</com.fasterxml.jackson.core.version>
+        <maven.shared.resources.version>3</maven.shared.resources.version>
+        <org.eclipse.jetty.version>9.4.12.v20180830</org.eclipse.jetty.version>
+        <org.mortbay.jetty.version>6.1.25</org.mortbay.jetty.version>
+        <jetty.util.version>11.0.2</jetty.util.version>
         <github.global.server>github</github.global.server>
     </properties>
     <modules>
@@ -45,6 +51,11 @@
                 <version>${logback.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-core</artifactId>
                 <version>${liquibase.version}</version>
@@ -53,6 +64,27 @@
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${jdbc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>${javax.servlet.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${com.fasterxml.jackson.core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-util</artifactId>
+                <version>${jetty.util.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty</artifactId>
+                <version>${org.mortbay.jetty.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

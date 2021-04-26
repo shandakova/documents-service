@@ -1,6 +1,8 @@
 package com.shandakova.documents.dao;
 
 import com.shandakova.documents.ConnectionPool;
+import com.shandakova.documents.dao.implementation.DirectoriesDAOImpl;
+import com.shandakova.documents.dao.interfaces.DirectoriesDAO;
 import com.shandakova.documents.entities.Directory;
 import org.junit.After;
 import org.junit.Before;
@@ -20,14 +22,14 @@ import java.util.Objects;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class DirectoriesDAOTest {
+public class DirectoriesDAOImplTest {
     private DirectoriesDAO directoriesDAO;
     private ConnectionPool connectionPool;
 
     @Before
     public void initDAO() throws SQLException, IOException {
         connectionPool = ConnectionPool.getInstanceByProperties("database.properties");
-        directoriesDAO = new DirectoriesDAO(connectionPool);
+        directoriesDAO = new DirectoriesDAOImpl(connectionPool);
     }
 
     @After
@@ -61,7 +63,7 @@ public class DirectoriesDAOTest {
         directory.setParentId(directory2.getId());
         directoriesDAO.updateByID(directory);
         List<Directory> directories = directoriesDAO.findAllDirectories();
-        boolean isDirectoryUpdated = directories.stream().anyMatch(d -> d.getId() == directory.getId()
+        boolean isDirectoryUpdated = directories.stream().anyMatch(d -> d.getId().equals(directory.getId())
                 && d.getName().equals(newName)
                 && d.getParentId().equals(directory2.getId())
                 && d.getCreationDateTime().equals(directory.getCreationDateTime()));
@@ -122,7 +124,7 @@ public class DirectoriesDAOTest {
         Directory directory = findByIdInList(directories, id);
         boolean flag = true;
         flag = directory.getName().equals(set.getString("name")) &&
-                directory.getParentId() == set.getObject("parent_id", Integer.class) &&
+                directory.getParentId().equals(set.getObject("parent_id", Integer.class)) &&
                 directory.getCreationDateTime().equals(set.getObject("creation_datetime", OffsetDateTime.class)
                         .toLocalDateTime());
         return flag;

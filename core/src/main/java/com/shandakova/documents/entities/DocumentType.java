@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DocumentType {
-    private int id;
+    private Integer id;
     private String name;
 }
