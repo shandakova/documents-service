@@ -45,8 +45,7 @@ public class ConnectionPool {
 
     public synchronized void returnConnection(Connection connection) throws SQLException {
         activeConnections.remove(connection);
-        connection.close();
-        connectionsPool.add(createConnection(url, username, password));
+        connectionsPool.add(connection);
     }
 
     public synchronized static ConnectionPool getInstanceByProperties(String properties) throws IOException, SQLException {
@@ -60,8 +59,8 @@ public class ConnectionPool {
         String url = prop.getProperty("url");
         String username = prop.getProperty("username");
         String password = prop.getProperty("password");
-        log.info("Created connection pool to url" + url);
         List<Connection> connections = getInitialConnections(url, username, password);
+        log.info("Created connection pool to url" + url);
         return new ConnectionPool(url, username, password, connections);
     }
 
@@ -86,4 +85,5 @@ public class ConnectionPool {
         }
         connectionsPool.clear();
     }
+
 }
