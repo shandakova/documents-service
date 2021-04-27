@@ -6,7 +6,7 @@ import com.shandakova.documents.dao.impl.DocumentTypeDAOImpl;
 import com.shandakova.documents.dao.impl.DocumentsDAOImpl;
 import com.shandakova.documents.dao.interfaces.DocumentTypeDAO;
 import com.shandakova.documents.dao.interfaces.DocumentsDAO;
-import com.shandakova.documents.dto.DocumentDTO;
+import dto.DocumentDTO;
 import com.shandakova.documents.entities.Document;
 import org.junit.AfterClass;
 import org.junit.Before;

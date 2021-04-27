@@ -2,8 +2,8 @@ package com.shandakova.documents.servlets;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shandakova.documents.dto.DirectoryDTO;
-import com.shandakova.documents.services.DirectoriesService;
+import services.DirectoriesService;
+import dto.DirectoryDTO;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServlet;
@@ -64,6 +64,7 @@ public class DirectoryServlet extends HttpServlet {
             String jsonPut = getStringFromRequest(req);
             ObjectMapper mapper = new ObjectMapper();
             DirectoryDTO directoryDTO = mapper.readValue(jsonPut, DirectoryDTO.class);
+            directoryDTO.setId(id);
             directoriesService.update(directoryDTO);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (NumberFormatException e) {

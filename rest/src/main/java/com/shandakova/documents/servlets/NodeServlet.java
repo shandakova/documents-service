@@ -1,8 +1,8 @@
 package com.shandakova.documents.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shandakova.documents.dto.NodeDTO;
-import com.shandakova.documents.services.NodeService;
+import dto.NodeDTO;
+import services.NodeService;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServlet;

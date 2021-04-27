@@ -31,6 +31,8 @@
         <module>core</module>
         <module>rest</module>
         <module>database</module>
+        <module>dto</module>
+        <module>service</module>
     </modules>
     <dependencyManagement>
         <dependencies>

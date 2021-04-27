@@ -1,9 +1,9 @@
-package com.shandakova.documents.services;
+package services;
 
 import com.shandakova.documents.ConnectionPool;
 import com.shandakova.documents.dao.impl.DocumentTypeDAOImpl;
 import com.shandakova.documents.dao.interfaces.DocumentTypeDAO;
-import com.shandakova.documents.dto.DocumentTypeDTO;
+import dto.DocumentTypeDTO;
 import com.shandakova.documents.entities.DocumentType;
 
 import java.io.IOException;

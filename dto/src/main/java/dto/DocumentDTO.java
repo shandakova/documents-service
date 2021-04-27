@@ -1,4 +1,4 @@
-package com.shandakova.documents.dto;
+package dto;
 
 import com.shandakova.documents.entities.Node;
 import com.shandakova.documents.entities.enums.Importance;

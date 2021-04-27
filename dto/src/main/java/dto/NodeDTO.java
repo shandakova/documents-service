@@ -1,4 +1,4 @@
-package com.shandakova.documents.dto;
+package dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

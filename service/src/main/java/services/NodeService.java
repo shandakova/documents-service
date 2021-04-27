@@ -1,9 +1,9 @@
-package com.shandakova.documents.services;
+package services;
 
 import com.shandakova.documents.ConnectionPool;
 import com.shandakova.documents.dao.impl.NodeDAOImpl;
 import com.shandakova.documents.dao.interfaces.NodeDAO;
-import com.shandakova.documents.dto.NodeDTO;
+import dto.NodeDTO;
 import com.shandakova.documents.entities.Node;
 
 import java.io.IOException;
