@@ -30,18 +30,21 @@ import static org.junit.Assert.assertTrue;
 public class DirectoryServletTest {
     private static DirectoriesDAO directoriesDAO;
     private ObjectMapper objectMapper = new ObjectMapper();
+    private static final int PORT = 8080;
+    private final String URI = "http://localhost:" + PORT + "/";
+    private static final String PROPERTIES = "database.properties";
     private static Server server;
 
     @BeforeClass
     public static void init() throws Exception {
         server = new Server();
         Connector connector = new SelectChannelConnector();
-        connector.setPort(8080);
+        connector.setPort(PORT);
         server.addConnector(connector);
         WebAppContext root = new WebAppContext("src/main/webapp", "/");
         server.setHandlers(new Handler[]{root});
         server.start();
-        directoriesDAO = new DirectoriesDAOImpl(ConnectionPool.getInstanceByProperties("database.properties"));
+        directoriesDAO = new DirectoriesDAOImpl(ConnectionPool.getInstanceByProperties(PROPERTIES));
     }
 
     @Before
@@ -51,7 +54,7 @@ public class DirectoryServletTest {
 
     @Test
     public void doPostOneDirectory() throws Exception {
-        URI serverUri = new URI("http://localhost:8080/");
+        URI serverUri = new URI(URI);
         HttpURLConnection http = (HttpURLConnection) serverUri.resolve("/directory").toURL().openConnection();
         http.setRequestMethod("POST");
         http.setDoOutput(true);
@@ -68,7 +71,7 @@ public class DirectoryServletTest {
 
     @Test
     public void doPostListDirectories() throws Exception {
-        URI serverUri = new URI("http://localhost:8080/");
+        URI serverUri = new URI(URI);
         HttpURLConnection http = (HttpURLConnection) serverUri.resolve("/directory/all").toURL().openConnection();
         http.setRequestMethod("POST");
         http.setDoOutput(true);
@@ -97,7 +100,7 @@ public class DirectoryServletTest {
         DirectoryDTO directoryDTO = new DirectoryDTO();
         directoryDTO.setId(id);
         directoryDTO.setName("new-dir-name");
-        URI serverUri = new URI("http://localhost:8080/");
+        URI serverUri = new URI(URI);
         HttpURLConnection http = (HttpURLConnection) serverUri.resolve("/directory/" + id).toURL().openConnection();
         http.setRequestMethod("PUT");
         http.setDoOutput(true);

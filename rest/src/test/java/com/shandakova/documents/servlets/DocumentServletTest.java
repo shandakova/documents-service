@@ -32,18 +32,21 @@ public class DocumentServletTest {
     private static DocumentTypeDAO documentTypeDAO;
     private ObjectMapper objectMapper = new ObjectMapper();
     private static Server server;
+    private static final int PORT = 8080;
+    private final String URI = "http://localhost:" + PORT + "/";
+    private static final String PROPERTIES = "database.properties";
 
     @BeforeClass
     public static void init() throws Exception {
         server = new Server();
         Connector connector = new SelectChannelConnector();
-        connector.setPort(8080);
+        connector.setPort(PORT);
         server.addConnector(connector);
         WebAppContext root = new WebAppContext("src/main/webapp", "/");
         server.setHandlers(new Handler[]{root});
         server.start();
-        documentsDAO = new DocumentsDAOImpl(ConnectionPool.getInstanceByProperties("database.properties"));
-        documentTypeDAO = new DocumentTypeDAOImpl(ConnectionPool.getInstanceByProperties("database.properties"));
+        documentsDAO = new DocumentsDAOImpl(ConnectionPool.getInstanceByProperties(PROPERTIES));
+        documentTypeDAO = new DocumentTypeDAOImpl(ConnectionPool.getInstanceByProperties(PROPERTIES));
     }
 
     @Before
@@ -53,7 +56,7 @@ public class DocumentServletTest {
 
     @Test
     public void doPostNewDocument() throws Exception {
-        URI serverUri = new URI("http://localhost:8080/");
+        URI serverUri = new URI(URI);
         HttpURLConnection http = (HttpURLConnection) serverUri.resolve("/document").toURL().openConnection();
         http.setRequestMethod("POST");
         http.setDoOutput(true);
@@ -80,8 +83,9 @@ public class DocumentServletTest {
         DocumentDTO documentDTO = new DocumentDTO();
         fillDTObyDocument(doc, documentDTO);
         documentDTO.setName("new-name");
-        URI serverUri = new URI("http://localhost:8080/");
-        HttpURLConnection http = (HttpURLConnection) serverUri.resolve("/document/" + doc.getId() + "/version").toURL().openConnection();
+        URI serverUri = new URI(URI);
+        HttpURLConnection http = (HttpURLConnection) serverUri.resolve("/document/" + doc.getId() + "/version")
+                .toURL().openConnection();
         http.setRequestMethod("POST");
         http.setDoOutput(true);
         OutputStream outputStream = http.getOutputStream();

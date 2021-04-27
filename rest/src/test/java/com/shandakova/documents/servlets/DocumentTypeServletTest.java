@@ -25,22 +25,25 @@ import static org.junit.Assert.assertTrue;
 public class DocumentTypeServletTest {
     private static DocumentTypeDAO documentTypeDAO;
     private static Server server;
+    private static final int PORT = 8080;
+    private final String URI = "http://localhost:" + PORT + "/";
+    private static final String PROPERTIES = "database.properties";
 
     @BeforeClass
     public static void init() throws Exception {
         server = new Server();
         Connector connector = new SelectChannelConnector();
-        connector.setPort(8080);
+        connector.setPort(PORT);
         server.addConnector(connector);
         WebAppContext root = new WebAppContext("src/main/webapp", "/");
         server.setHandlers(new Handler[]{root});
         server.start();
-        documentTypeDAO = new DocumentTypeDAOImpl(ConnectionPool.getInstanceByProperties("database.properties"));
+        documentTypeDAO = new DocumentTypeDAOImpl(ConnectionPool.getInstanceByProperties(PROPERTIES));
     }
 
     @Test
     public void testGetAll() throws Exception {
-        URI serverUri = new URI("http://localhost:8080/");
+        URI serverUri = new URI(URI);
         HttpURLConnection http = (HttpURLConnection) serverUri.resolve("/type/get/all").toURL().openConnection();
         http.connect();
         assertEquals(HttpStatus.ORDINAL_200_OK, http.getResponseCode());

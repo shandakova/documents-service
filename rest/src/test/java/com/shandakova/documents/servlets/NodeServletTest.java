@@ -28,17 +28,20 @@ import static org.junit.Assert.assertTrue;
 public class NodeServletTest {
     private static DirectoriesDAO directoriesDAO;
     private static Server server;
+    private static final int PORT = 8080;
+    private final String URI = "http://localhost:" + PORT + "/";
+    private static final String PROPERTIES = "database.properties";
 
     @BeforeClass
     public static void init() throws Exception {
         server = new Server();
         Connector connector = new SelectChannelConnector();
-        connector.setPort(8080);
+        connector.setPort(PORT);
         server.addConnector(connector);
         WebAppContext root = new WebAppContext("src/main/webapp", "/");
         server.setHandlers(new Handler[]{root});
         server.start();
-        directoriesDAO = new DirectoriesDAOImpl(ConnectionPool.getInstanceByProperties("database.properties"));
+        directoriesDAO = new DirectoriesDAOImpl(ConnectionPool.getInstanceByProperties(PROPERTIES));
     }
 
     @Before
@@ -49,7 +52,7 @@ public class NodeServletTest {
     @Test
     public void doGet() throws Exception {
         createTestDirectory();
-        URI serverUri = new URI("http://localhost:8080/");
+        URI serverUri = new URI(URI);
         HttpURLConnection http = (HttpURLConnection) serverUri.
                 resolve("/node/get/all?parent_id=null&order=desc").toURL().openConnection();
         http.setRequestMethod("GET");
