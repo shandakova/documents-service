@@ -1,7 +1,7 @@
 package com.shandakova.documents.services;
 
 import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.implementation.NodeDAOImpl;
+import com.shandakova.documents.dao.impl.NodeDAOImpl;
 import com.shandakova.documents.dao.interfaces.NodeDAO;
 import com.shandakova.documents.dto.NodeDTO;
 import com.shandakova.documents.entities.Node;

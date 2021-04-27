@@ -2,8 +2,8 @@ package com.shandakova.documents.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.implementation.DocumentTypeDAOImpl;
-import com.shandakova.documents.dao.implementation.DocumentsDAOImpl;
+import com.shandakova.documents.dao.impl.DocumentTypeDAOImpl;
+import com.shandakova.documents.dao.impl.DocumentsDAOImpl;
 import com.shandakova.documents.dao.interfaces.DocumentTypeDAO;
 import com.shandakova.documents.dao.interfaces.DocumentsDAO;
 import com.shandakova.documents.dto.DocumentDTO;

@@ -1,4 +1,4 @@
-package com.shandakova.documents.dao.implementation;
+package com.shandakova.documents.dao.impl;
 
 import com.shandakova.documents.ConnectionPool;
 import com.shandakova.documents.dao.interfaces.DocumentsDAO;

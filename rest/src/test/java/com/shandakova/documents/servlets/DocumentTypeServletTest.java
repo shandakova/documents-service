@@ -1,7 +1,7 @@
 package com.shandakova.documents.servlets;
 
 import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.implementation.DocumentTypeDAOImpl;
+import com.shandakova.documents.dao.impl.DocumentTypeDAOImpl;
 import com.shandakova.documents.dao.interfaces.DocumentTypeDAO;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

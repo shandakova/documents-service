@@ -2,7 +2,7 @@ package com.shandakova.documents.dao;
 
 
 import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.implementation.DocumentTypeDAOImpl;
+import com.shandakova.documents.dao.impl.DocumentTypeDAOImpl;
 import com.shandakova.documents.entities.DocumentType;
 import org.junit.After;
 import org.junit.Before;

@@ -1,7 +1,7 @@
 package com.shandakova.documents.services;
 
 import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.implementation.DirectoriesDAOImpl;
+import com.shandakova.documents.dao.impl.DirectoriesDAOImpl;
 import com.shandakova.documents.dao.interfaces.DirectoriesDAO;
 import com.shandakova.documents.dto.DirectoryDTO;
 import com.shandakova.documents.entities.Directory;

@@ -1,10 +1,10 @@
 package com.shandakova.documents.dao;
 
 import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.implementation.DirectoriesDAOImpl;
-import com.shandakova.documents.dao.implementation.DocumentTypeDAOImpl;
-import com.shandakova.documents.dao.implementation.DocumentsDAOImpl;
-import com.shandakova.documents.dao.implementation.NodeDAOImpl;
+import com.shandakova.documents.dao.impl.DirectoriesDAOImpl;
+import com.shandakova.documents.dao.impl.DocumentTypeDAOImpl;
+import com.shandakova.documents.dao.impl.DocumentsDAOImpl;
+import com.shandakova.documents.dao.impl.NodeDAOImpl;
 import com.shandakova.documents.dao.interfaces.DirectoriesDAO;
 import com.shandakova.documents.dao.interfaces.DocumentTypeDAO;
 import com.shandakova.documents.dao.interfaces.DocumentsDAO;

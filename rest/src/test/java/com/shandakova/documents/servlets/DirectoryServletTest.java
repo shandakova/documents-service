@@ -2,7 +2,7 @@ package com.shandakova.documents.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.implementation.DirectoriesDAOImpl;
+import com.shandakova.documents.dao.impl.DirectoriesDAOImpl;
 import com.shandakova.documents.dao.interfaces.DirectoriesDAO;
 import com.shandakova.documents.dto.DirectoryDTO;
 import com.shandakova.documents.entities.Directory;
