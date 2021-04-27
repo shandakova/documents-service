@@ -58,12 +58,12 @@ public class NodeServletTest {
         http.setRequestMethod("GET");
         http.connect();
         assertEquals(HttpStatus.ORDINAL_200_OK, http.getResponseCode());
-        BufferedReader br = new BufferedReader(new InputStreamReader(http.getInputStream()));
-        String response = br.lines().collect(Collectors.joining());
-        System.out.println(response);
-        assertTrue(response.contains("\"name\":\"dir\""));
-        assertTrue(response.contains("\"parentId\":null"));
-
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(http.getInputStream()))) {
+            String response = br.lines().collect(Collectors.joining());
+            assertTrue(response.contains("\"name\":\"dir\""));
+            assertTrue(response.contains("\"parentId\":null"));
+        }
+        http.disconnect();
     }
 
     private void createTestDirectory() throws SQLException {

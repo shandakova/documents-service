@@ -67,6 +67,7 @@ public class DirectoryServletTest {
         List<Directory> allDirectories = directoriesDAO.findAllDirectories();
         assertEquals(1, allDirectories.size());
         assertEquals("dir", allDirectories.get(0).getName());
+        http.disconnect();
     }
 
     @Test
@@ -88,6 +89,7 @@ public class DirectoryServletTest {
         assertEquals(2, allDirectories.size());
         assertTrue(allDirectories.stream().anyMatch(directory -> directory.getName().equals("dir1")));
         assertTrue(allDirectories.stream().anyMatch(directory -> directory.getName().equals("dir2")));
+        http.disconnect();
     }
 
 
@@ -109,6 +111,7 @@ public class DirectoryServletTest {
         http.connect();
         assertEquals(HttpStatus.ORDINAL_200_OK, http.getResponseCode());
         assertEquals("new-dir-name", directoriesDAO.findAllDirectories().get(0).getName());
+        http.disconnect();
     }
 
     @AfterClass

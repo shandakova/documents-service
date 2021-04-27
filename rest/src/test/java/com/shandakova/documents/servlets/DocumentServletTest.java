@@ -75,6 +75,7 @@ public class DocumentServletTest {
         assertNotNull(document.getId());
         assertNotNull(document.getImportance());
         assertNotNull(document.getCreationDateTime());
+        http.disconnect();
     }
 
     @Test
@@ -100,6 +101,7 @@ public class DocumentServletTest {
         assertTrue(docs.stream().anyMatch(document -> doc.getId().equals(document.getPreviousVersionId()) &&
                 document.getName().equals("new-name") &&
                 document.getDescription().equals(doc.getDescription())));
+        http.disconnect();
     }
 
     private void fillDTObyDocument(Document document, DocumentDTO documentDTO) {

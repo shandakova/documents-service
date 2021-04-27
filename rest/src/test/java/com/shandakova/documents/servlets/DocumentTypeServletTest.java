@@ -47,11 +47,13 @@ public class DocumentTypeServletTest {
         HttpURLConnection http = (HttpURLConnection) serverUri.resolve("/type/get/all").toURL().openConnection();
         http.connect();
         assertEquals(HttpStatus.ORDINAL_200_OK, http.getResponseCode());
-        BufferedReader br = new BufferedReader(new InputStreamReader(http.getInputStream()));
-        String response = br.lines().collect(Collectors.joining());
-        assertTrue(response.contains("\"name\":\"Письмо\""));
-        assertTrue(response.contains("\"name\":\"Факс\""));
-        assertTrue(response.contains("\"name\":\"Приказ\""));
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(http.getInputStream()))) {
+            String response = br.lines().collect(Collectors.joining());
+            assertTrue(response.contains("\"name\":\"Письмо\""));
+            assertTrue(response.contains("\"name\":\"Факс\""));
+            assertTrue(response.contains("\"name\":\"Приказ\""));
+        }
+        http.disconnect();
     }
 
     @AfterClass
