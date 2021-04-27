@@ -10,7 +10,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>database-module</artifactId>
+    <artifactId>database-module-document-service</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <properties>
@@ -32,7 +32,7 @@
         </dependency>
         <dependency>
             <groupId>com.shandakova</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>core-document-service</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
