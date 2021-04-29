@@ -1,9 +1,11 @@
 package com.shandakova.documents.dao.impl;
 
 import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.interfaces.DirectoriesDAO;
+import com.shandakova.documents.dao.DirectoriesDAO;
 import com.shandakova.documents.entities.Directory;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.time.OffsetDateTime;
@@ -11,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@Repository("directoriesDaoSqlImpl")
 public class DirectoriesDAOImpl implements DirectoriesDAO {
+    @Autowired
     private final ConnectionPool connectionPool;
     private final String CREATE_NODE = "INSERT INTO nodes (name,parent_id,available,creation_datetime) " +
             "VALUES (?,?,?,NOW());";
@@ -56,9 +60,11 @@ public class DirectoriesDAOImpl implements DirectoriesDAO {
         List<String> names = new ArrayList<>();
         for (Directory directory : directoryList) {
             commitDirectory(directory, connection);
+            names.add(directory.getName());
         }
         connection.setAutoCommit(true);
         names.forEach(name -> log.info("Create directory with name: " + name));
+        connectionPool.returnConnection(connection);
     }
 
     public void updateByID(Directory directory) throws SQLException {

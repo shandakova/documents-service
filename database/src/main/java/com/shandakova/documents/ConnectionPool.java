@@ -1,5 +1,6 @@
 package com.shandakova.documents;
 
+import com.shandakova.documents.dao.config.DbProperties;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileNotFoundException;
@@ -20,26 +21,41 @@ public class ConnectionPool {
     private final String username;
     private final String password;
     private static final int POOL_SIZE = 20;
+    private static final int MAXIMUM_SIZE = 8000;
+    private static int size = POOL_SIZE;
     private final List<Connection> connectionsPool;
     private final List<Connection> activeConnections = Collections.synchronizedList(new ArrayList<>());
 
-    public ConnectionPool(String url, String username, String password, List<Connection> connections) {
+    private ConnectionPool(String url, String username, String password, List<Connection> connections) {
         this.url = url;
         this.username = username;
         this.password = password;
         this.connectionsPool = connections;
     }
 
+    public ConnectionPool(DbProperties dbProperties) throws SQLException {
+        this.url = dbProperties.getUrl();
+        this.username = dbProperties.getUsername();
+        this.password = dbProperties.getPassword();
+        connectionsPool = getInitialConnections(url, username, password);
+    }
+
     public synchronized Connection getConnection() throws SQLException {
-        if (connectionsPool.isEmpty()) {
+        Connection connection;
+        if (connectionsPool.isEmpty() && size >= MAXIMUM_SIZE) {
             throw new RuntimeException("Pool has no available connection.");
-        }
-        Connection connection = connectionsPool.remove(connectionsPool.size() - 1);
-        int TIMEOUT = 5;
-        if (!connection.isValid(TIMEOUT)) {
+        } else if (!connectionsPool.isEmpty()) {
+            connection = connectionsPool.remove(connectionsPool.size() - 1);
+            int TIMEOUT = 5;
+            if (!connection.isValid(TIMEOUT)) {
+                connection = createConnection(url, username, password);
+            }
+            activeConnections.add(connection);
+        } else {
+            size++;
             connection = createConnection(url, username, password);
+            activeConnections.add(connection);
         }
-        activeConnections.add(connection);
         return connection;
     }
 

@@ -1,30 +1,31 @@
 package com.shandakova.documents.dao.impl;
 
-import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.interfaces.NodeDAO;
+import com.shandakova.documents.dao.DirectoriesDAO;
+import com.shandakova.documents.dao.NodeDAO;
 import com.shandakova.documents.entities.Directory;
 import com.shandakova.documents.entities.Document;
 import com.shandakova.documents.entities.Node;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@Repository("nodeDaoSqlImpl")
 public class NodeDAOImpl implements NodeDAO {
-    final DocumentsDAOImpl documentsDAOImpl;
-    final DirectoriesDAOImpl directoriesDAO;
+    final DocumentsDAOImpl documentsDAO;
+    final DirectoriesDAO directoriesDAO;
 
-    public NodeDAOImpl(ConnectionPool connectionPool) {
-        documentsDAOImpl = new DocumentsDAOImpl(connectionPool);
-        directoriesDAO = new DirectoriesDAOImpl(connectionPool);
+    public NodeDAOImpl(DocumentsDAOImpl documentsDAO, DirectoriesDAO directoriesDAO) {
+        this.documentsDAO = documentsDAO;
+        this.directoriesDAO = directoriesDAO;
     }
-
 
     public List<Node> getNodesByParentId(Integer parentId, boolean isDescOrder) throws SQLException {
         List<Directory> directories = directoriesDAO.findAllDirectoriesByParentId(parentId, isDescOrder);
-        List<Document> documents = documentsDAOImpl.findAllDocumentsByParentId(parentId, isDescOrder);
+        List<Document> documents = documentsDAO.findAllDocumentsByParentId(parentId, isDescOrder);
         List<Node> nodes = new ArrayList<>();
         nodes.addAll(directories);
         nodes.addAll(documents);

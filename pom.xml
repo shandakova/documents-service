@@ -25,7 +25,10 @@
         <org.eclipse.jetty.version>9.4.12.v20180830</org.eclipse.jetty.version>
         <org.mortbay.jetty.version>6.1.25</org.mortbay.jetty.version>
         <jetty.util.version>11.0.2</jetty.util.version>
-        <github.global.server>github</github.global.server>
+        <!--        <github.global.server>github</github.global.server>-->
+        <spring.core.version>5.3.5</spring.core.version>
+        <spring.context.version>5.3.5</spring.context.version>
+        <spring.test.version>5.3.3</spring.test.version>
     </properties>
     <modules>
         <module>core</module>
@@ -88,6 +91,23 @@
                 <version>${org.mortbay.jetty.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.context.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.test.version}</version>
+                <scope>test</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

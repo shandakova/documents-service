@@ -1,26 +1,23 @@
-package services;
+package com.shandakova.documents.services;
 
-import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.impl.DirectoriesDAOImpl;
-import com.shandakova.documents.dao.interfaces.DirectoriesDAO;
-
+import com.shandakova.documents.dao.DirectoriesDAO;
+import com.shandakova.documents.dto.DirectoryDTO;
 import com.shandakova.documents.entities.Directory;
-import dto.DirectoryDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class DirectoriesService {
-    private static DirectoriesDAO directoriesDAO;
-    private DirectoriesService(){}
+    @Autowired
+    private DirectoriesDAO directoriesDAO;
 
-    public static DirectoriesService getInstance(String properties) throws SQLException, IOException {
-        directoriesDAO = new DirectoriesDAOImpl(ConnectionPool.getInstanceByProperties(properties));
-        return new DirectoriesService();
+    public DirectoriesService(DirectoriesDAO directoriesDAO) {
+        this.directoriesDAO = directoriesDAO;
     }
-
 
     public void create(DirectoryDTO directoryDTO) throws SQLException {
         Directory directory = new Directory();

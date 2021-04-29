@@ -1,14 +1,15 @@
 package com.shandakova.documents.dao;
 
 import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.impl.DirectoriesDAOImpl;
-import com.shandakova.documents.dao.interfaces.DirectoriesDAO;
+import com.shandakova.documents.dao.config.AppConfig;
 import com.shandakova.documents.entities.Directory;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,15 +23,13 @@ import java.util.Objects;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppConfig.class)
 public class DirectoriesDAOImplTest {
-    private DirectoriesDAO directoriesDAO;
+    @Autowired
     private ConnectionPool connectionPool;
-
-    @Before
-    public void initDAO() throws SQLException, IOException {
-        connectionPool = ConnectionPool.getInstanceByProperties("database.properties");
-        directoriesDAO = new DirectoriesDAOImpl(connectionPool);
-    }
+    @Autowired
+    private DirectoriesDAO directoriesDAO;
 
     @After
     public void shutdown() throws SQLException {

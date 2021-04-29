@@ -1,9 +1,11 @@
 package com.shandakova.documents.dao.impl;
 
 import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.interfaces.DocumentTypeDAO;
+import com.shandakova.documents.dao.DocumentTypeDAO;
 import com.shandakova.documents.entities.DocumentType;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@Repository("documentTypeDaoSqlImpl")
 public class DocumentTypeDAOImpl implements DocumentTypeDAO {
+    @Autowired
     private final ConnectionPool connectionPool;
     private final String SELECT_ALL_TYPES = "SELECT * FROM types";
 

@@ -1,17 +1,18 @@
 package com.shandakova.documents.servlets;
 
-import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.impl.DocumentTypeDAOImpl;
-import com.shandakova.documents.dao.interfaces.DocumentTypeDAO;
+import com.shandakova.documents.dao.config.AppConfig;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.HttpStatus;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.nio.SelectChannelConnector;
 import org.mortbay.jetty.webapp.WebAppContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -22,12 +23,12 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppConfig.class)
 public class DocumentTypeServletTest {
-    private static DocumentTypeDAO documentTypeDAO;
     private static Server server;
     private static final int PORT = 8080;
     private final String URI = "http://localhost:" + PORT + "/";
-    private static final String PROPERTIES = "database.properties";
 
     @BeforeClass
     public static void init() throws Exception {
@@ -38,7 +39,6 @@ public class DocumentTypeServletTest {
         WebAppContext root = new WebAppContext("src/main/webapp", "/");
         server.setHandlers(new Handler[]{root});
         server.start();
-        documentTypeDAO = new DocumentTypeDAOImpl(ConnectionPool.getInstanceByProperties(PROPERTIES));
     }
 
     @Test

@@ -1,23 +1,25 @@
 package com.shandakova.documents.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.impl.DocumentTypeDAOImpl;
-import com.shandakova.documents.dao.impl.DocumentsDAOImpl;
-import com.shandakova.documents.dao.interfaces.DocumentTypeDAO;
-import com.shandakova.documents.dao.interfaces.DocumentsDAO;
-import dto.DocumentDTO;
+import com.shandakova.documents.dao.DocumentTypeDAO;
+import com.shandakova.documents.dao.DocumentsDAO;
+import com.shandakova.documents.dao.config.AppConfig;
+import com.shandakova.documents.dto.DocumentDTO;
 import com.shandakova.documents.entities.Document;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.HttpStatus;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.nio.SelectChannelConnector;
 import org.mortbay.jetty.webapp.WebAppContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -27,14 +29,17 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppConfig.class)
 public class DocumentServletTest {
-    private static DocumentsDAO documentsDAO;
-    private static DocumentTypeDAO documentTypeDAO;
+    @Autowired
+    private DocumentsDAO documentsDAO;
+    @Autowired
+    private DocumentTypeDAO documentTypeDAO;
     private ObjectMapper objectMapper = new ObjectMapper();
     private static Server server;
     private static final int PORT = 8080;
     private final String URI = "http://localhost:" + PORT + "/";
-    private static final String PROPERTIES = "database.properties";
 
     @BeforeClass
     public static void init() throws Exception {
@@ -45,8 +50,6 @@ public class DocumentServletTest {
         WebAppContext root = new WebAppContext("src/main/webapp", "/");
         server.setHandlers(new Handler[]{root});
         server.start();
-        documentsDAO = new DocumentsDAOImpl(ConnectionPool.getInstanceByProperties(PROPERTIES));
-        documentTypeDAO = new DocumentTypeDAOImpl(ConnectionPool.getInstanceByProperties(PROPERTIES));
     }
 
     @Before

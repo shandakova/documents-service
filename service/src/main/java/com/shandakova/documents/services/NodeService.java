@@ -1,26 +1,22 @@
-package services;
+package com.shandakova.documents.services;
 
-import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.impl.NodeDAOImpl;
-import com.shandakova.documents.dao.interfaces.NodeDAO;
-import dto.NodeDTO;
+import com.shandakova.documents.dao.NodeDAO;
+import com.shandakova.documents.dto.NodeDTO;
 import com.shandakova.documents.entities.Node;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class NodeService {
-    private static NodeDAO nodeDAO;
+    @Autowired
+    private NodeDAO nodeDAO;
 
-    private NodeService() {
-
-    }
-
-    public static NodeService getInstance(String properties) throws SQLException, IOException {
-        nodeDAO = new NodeDAOImpl(ConnectionPool.getInstanceByProperties(properties));
-        return new NodeService();
+    public NodeService(NodeDAO nodeDAO) {
+        this.nodeDAO = nodeDAO;
     }
 
     public List<NodeDTO> getAllByParentId(Integer parentId, boolean order) throws SQLException {

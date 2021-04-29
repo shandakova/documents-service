@@ -40,4 +40,5 @@
         <servlet-name>NodeServlet</servlet-name>
         <url-pattern>/node/get/all</url-pattern>
     </servlet-mapping>
+
 </web-app>

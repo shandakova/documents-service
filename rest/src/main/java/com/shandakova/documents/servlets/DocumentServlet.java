@@ -1,8 +1,9 @@
 package com.shandakova.documents.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.DocumentDTO;
-import services.DocumentService;
+import com.shandakova.documents.dto.DocumentDTO;
+import com.shandakova.documents.services.DocumentService;
+import com.shandakova.documents.servlets.context.ApplicationContextHolder;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServlet;
@@ -17,9 +18,9 @@ import java.util.stream.Collectors;
 public class DocumentServlet extends HttpServlet {
     private DocumentService documentService;
 
-    public DocumentServlet() throws SQLException, IOException {
+    public DocumentServlet() {
         super();
-        documentService = DocumentService.getInstance("database.properties");
+        documentService = ApplicationContextHolder.getApplicationContext().getBean(DocumentService.class);
     }
 
     @Override

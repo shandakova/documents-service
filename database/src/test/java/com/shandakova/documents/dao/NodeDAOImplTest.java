@@ -1,22 +1,18 @@
 package com.shandakova.documents.dao;
 
-import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.impl.DirectoriesDAOImpl;
-import com.shandakova.documents.dao.impl.DocumentTypeDAOImpl;
-import com.shandakova.documents.dao.impl.DocumentsDAOImpl;
+import com.shandakova.documents.dao.config.AppConfig;
 import com.shandakova.documents.dao.impl.NodeDAOImpl;
-import com.shandakova.documents.dao.interfaces.DirectoriesDAO;
-import com.shandakova.documents.dao.interfaces.DocumentTypeDAO;
-import com.shandakova.documents.dao.interfaces.DocumentsDAO;
 import com.shandakova.documents.entities.Directory;
 import com.shandakova.documents.entities.Document;
 import com.shandakova.documents.entities.Node;
 import com.shandakova.documents.entities.enums.Importance;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,20 +20,17 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppConfig.class)
 public class NodeDAOImplTest {
+    @Autowired
     NodeDAOImpl nodeDAO;
+    @Autowired
     DocumentsDAO documentsDAO;
+    @Autowired
     DirectoriesDAO directoriesDAO;
+    @Autowired
     DocumentTypeDAO documentTypeDAO;
-
-    @Before
-    public void init() throws SQLException, IOException {
-        ConnectionPool connectionPool = ConnectionPool.getInstanceByProperties("database.properties");
-        documentsDAO = new DocumentsDAOImpl(connectionPool);
-        directoriesDAO = new DirectoriesDAOImpl(connectionPool);
-        documentTypeDAO = new DocumentTypeDAOImpl(connectionPool);
-        nodeDAO = new NodeDAOImpl(connectionPool);
-    }
 
     @After
     public void shutdown() throws SQLException {

@@ -1,25 +1,22 @@
-package services;
+package com.shandakova.documents.services;
 
-import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.impl.DocumentTypeDAOImpl;
-import com.shandakova.documents.dao.interfaces.DocumentTypeDAO;
-import dto.DocumentTypeDTO;
+import com.shandakova.documents.dao.DocumentTypeDAO;
+import com.shandakova.documents.dto.DocumentTypeDTO;
 import com.shandakova.documents.entities.DocumentType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class DocumentTypeService {
-    private static DocumentTypeDAO documentTypeDAO;
+    @Autowired
+    private DocumentTypeDAO documentTypeDAO;
 
-    private DocumentTypeService() {
-    }
-
-    public static DocumentTypeService getInstance(String properties) throws SQLException, IOException {
-        documentTypeDAO = new DocumentTypeDAOImpl(ConnectionPool.getInstanceByProperties(properties));
-        return new DocumentTypeService();
+    public DocumentTypeService(DocumentTypeDAO documentTypeDAO) {
+        this.documentTypeDAO = documentTypeDAO;
     }
 
     public List<DocumentTypeDTO> getAll() throws SQLException {

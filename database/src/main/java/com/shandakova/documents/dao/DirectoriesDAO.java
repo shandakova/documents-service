@@ -1,4 +1,4 @@
-package com.shandakova.documents.dao.interfaces;
+package com.shandakova.documents.dao;
 
 import com.shandakova.documents.entities.Directory;
 

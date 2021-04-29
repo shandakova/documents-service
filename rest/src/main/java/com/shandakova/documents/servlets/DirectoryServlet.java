@@ -2,8 +2,9 @@ package com.shandakova.documents.servlets;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import services.DirectoriesService;
-import dto.DirectoryDTO;
+import com.shandakova.documents.dto.DirectoryDTO;
+import com.shandakova.documents.services.DirectoriesService;
+import com.shandakova.documents.servlets.context.ApplicationContextHolder;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServlet;
@@ -19,9 +20,9 @@ import java.util.stream.Collectors;
 public class DirectoryServlet extends HttpServlet {
     private DirectoriesService directoriesService;
 
-    public DirectoryServlet() throws SQLException, IOException {
+    public DirectoryServlet() {
         super();
-        directoriesService = DirectoriesService.getInstance("database.properties");
+        directoriesService = ApplicationContextHolder.getApplicationContext().getBean(DirectoriesService.class);
     }
 
     @Override

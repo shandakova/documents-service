@@ -1,15 +1,15 @@
 package com.shandakova.documents.dao;
 
-import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.impl.DocumentTypeDAOImpl;
-import com.shandakova.documents.dao.impl.DocumentsDAOImpl;
-import com.shandakova.documents.dao.interfaces.DocumentTypeDAO;
-import com.shandakova.documents.dao.interfaces.DocumentsDAO;
+import com.shandakova.documents.dao.config.AppConfig;
 import com.shandakova.documents.entities.Document;
 import com.shandakova.documents.entities.enums.Importance;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -18,15 +18,16 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppConfig.class)
 public class DocumentsDAOImplTest {
+    @Autowired
     private DocumentsDAO documentsDAO;
+    @Autowired
     private DocumentTypeDAO documentTypeDAO;
 
     @Before
     public void init() throws SQLException, IOException {
-        ConnectionPool connectionPool = ConnectionPool.getInstanceByProperties("database.properties");
-        documentsDAO = new DocumentsDAOImpl(connectionPool);
-        documentTypeDAO = new DocumentTypeDAOImpl(connectionPool);
         documentsDAO.deleteAll();
     }
 

@@ -1,8 +1,9 @@
 package com.shandakova.documents.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.NodeDTO;
-import services.NodeService;
+import com.shandakova.documents.dto.NodeDTO;
+import com.shandakova.documents.services.NodeService;
+import com.shandakova.documents.servlets.context.ApplicationContextHolder;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServlet;
@@ -17,8 +18,8 @@ import java.util.List;
 public class NodeServlet extends HttpServlet {
     private NodeService nodeService;
 
-    public NodeServlet() throws SQLException, IOException {
-        nodeService = NodeService.getInstance("database.properties");
+    public NodeServlet() {
+        nodeService = ApplicationContextHolder.getApplicationContext().getBean(NodeService.class);
     }
 
     @Override

@@ -1,21 +1,24 @@
 package com.shandakova.documents.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shandakova.documents.ConnectionPool;
-import com.shandakova.documents.dao.impl.DirectoriesDAOImpl;
-import com.shandakova.documents.dao.interfaces.DirectoriesDAO;
-import dto.DirectoryDTO;
+import com.shandakova.documents.dao.DirectoriesDAO;
+import com.shandakova.documents.dao.config.AppConfig;
+import com.shandakova.documents.dto.DirectoryDTO;
 import com.shandakova.documents.entities.Directory;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.HttpStatus;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.nio.SelectChannelConnector;
 import org.mortbay.jetty.webapp.WebAppContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -27,12 +30,14 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppConfig.class)
 public class DirectoryServletTest {
-    private static DirectoriesDAO directoriesDAO;
+    @Autowired
+    private DirectoriesDAO directoriesDAO;
     private ObjectMapper objectMapper = new ObjectMapper();
     private static final int PORT = 8080;
     private final String URI = "http://localhost:" + PORT + "/";
-    private static final String PROPERTIES = "database.properties";
     private static Server server;
 
     @BeforeClass
@@ -44,7 +49,6 @@ public class DirectoryServletTest {
         WebAppContext root = new WebAppContext("src/main/webapp", "/");
         server.setHandlers(new Handler[]{root});
         server.start();
-        directoriesDAO = new DirectoriesDAOImpl(ConnectionPool.getInstanceByProperties(PROPERTIES));
     }
 
     @Before
