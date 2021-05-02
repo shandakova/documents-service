@@ -3,7 +3,6 @@ package com.shandakova.documents.services;
 import com.shandakova.documents.dao.DocumentTypeDAO;
 import com.shandakova.documents.dto.DocumentTypeDTO;
 import com.shandakova.documents.entities.DocumentType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -12,7 +11,6 @@ import java.util.List;
 
 @Service
 public class DocumentTypeService {
-    @Autowired
     private DocumentTypeDAO documentTypeDAO;
 
     public DocumentTypeService(DocumentTypeDAO documentTypeDAO) {

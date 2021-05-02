@@ -5,7 +5,6 @@ import com.shandakova.documents.dao.DocumentsDAO;
 import com.shandakova.documents.entities.Document;
 import com.shandakova.documents.entities.enums.Importance;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -16,7 +15,6 @@ import java.util.List;
 @Slf4j
 @Repository("documentsDaoSqlImpl")
 public class DocumentsDAOImpl implements DocumentsDAO {
-    @Autowired
     private final ConnectionPool connectionPool;
     private final String CREATE_NODE = "INSERT INTO nodes (name,parent_id,available,creation_datetime) " +
             "VALUES (?,?,?,NOW());";

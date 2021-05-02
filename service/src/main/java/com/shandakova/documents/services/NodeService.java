@@ -3,7 +3,6 @@ package com.shandakova.documents.services;
 import com.shandakova.documents.dao.NodeDAO;
 import com.shandakova.documents.dto.NodeDTO;
 import com.shandakova.documents.entities.Node;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -12,7 +11,6 @@ import java.util.List;
 
 @Service
 public class NodeService {
-    @Autowired
     private NodeDAO nodeDAO;
 
     public NodeService(NodeDAO nodeDAO) {

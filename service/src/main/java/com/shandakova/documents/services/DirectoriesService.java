@@ -3,7 +3,6 @@ package com.shandakova.documents.services;
 import com.shandakova.documents.dao.DirectoriesDAO;
 import com.shandakova.documents.dto.DirectoryDTO;
 import com.shandakova.documents.entities.Directory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -12,7 +11,6 @@ import java.util.List;
 
 @Service
 public class DirectoriesService {
-    @Autowired
     private DirectoriesDAO directoriesDAO;
 
     public DirectoriesService(DirectoriesDAO directoriesDAO) {
