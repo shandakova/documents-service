@@ -1,15 +1,16 @@
 package com.shandakova.documents.dao;
 
 import com.shandakova.documents.dao.config.AppConfig;
-import com.shandakova.documents.dao.impl.NodeDAOImpl;
 import com.shandakova.documents.entities.Directory;
 import com.shandakova.documents.entities.Document;
 import com.shandakova.documents.entities.Node;
 import com.shandakova.documents.entities.enums.Importance;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -24,13 +25,23 @@ import static org.junit.Assert.assertTrue;
 @ContextConfiguration(classes = AppConfig.class)
 public class NodeDAOImplTest {
     @Autowired
-    NodeDAOImpl nodeDAO;
+    @Qualifier("nodeDaoJpaImpl")
+    NodeDAO nodeDAO;
     @Autowired
+    @Qualifier("documentsDaoSqlImpl")
     DocumentsDAO documentsDAO;
     @Autowired
+    @Qualifier("directoriesDaoSqlImpl")
     DirectoriesDAO directoriesDAO;
+    @Qualifier("documentTypeDaoSqlImpl")
     @Autowired
     DocumentTypeDAO documentTypeDAO;
+
+    @Before
+    public void init() throws SQLException {
+        directoriesDAO.deleteAll();
+        documentsDAO.deleteAll();
+    }
 
     @After
     public void shutdown() throws SQLException {
@@ -67,7 +78,7 @@ public class NodeDAOImplTest {
     private void fillDocument(Document document) throws SQLException {
         document.setName("test-document" + LocalDateTime.now());
         document.setParentId(null);
-        document.setImportance(Importance.LOW);
+        document.setImportance(Importance.low);
         document.setDescription("This is test document!");
         int type = documentTypeDAO.getAll().get(0).getId();
         document.setTypeId(type);

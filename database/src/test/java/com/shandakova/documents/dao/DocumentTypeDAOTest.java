@@ -3,12 +3,12 @@ package com.shandakova.documents.dao;
 
 import com.shandakova.documents.ConnectionPool;
 import com.shandakova.documents.dao.config.AppConfig;
-import com.shandakova.documents.dao.impl.DocumentTypeDAOImpl;
 import com.shandakova.documents.entities.DocumentType;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,8 +23,9 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = AppConfig.class)
 public class DocumentTypeDAOTest {
+    @Qualifier("documentTypeDaoJpaImpl")
     @Autowired
-    private DocumentTypeDAOImpl documentTypeDAO;
+    private DocumentTypeDAO documentTypeDAO;
     @Autowired
     private ConnectionPool connectionPool;
 

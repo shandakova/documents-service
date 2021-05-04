@@ -17,6 +17,7 @@ import org.mortbay.jetty.Server;
 import org.mortbay.jetty.nio.SelectChannelConnector;
 import org.mortbay.jetty.webapp.WebAppContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -34,6 +35,7 @@ import static org.junit.Assert.assertTrue;
 @ContextConfiguration(classes = AppConfig.class)
 public class DirectoryServletTest {
     @Autowired
+    @Qualifier("directoriesDaoJpaImpl")
     private DirectoriesDAO directoriesDAO;
     private ObjectMapper objectMapper = new ObjectMapper();
     private static final int PORT = 8080;

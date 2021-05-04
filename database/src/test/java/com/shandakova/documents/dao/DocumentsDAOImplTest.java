@@ -8,10 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,13 +21,15 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = AppConfig.class)
 public class DocumentsDAOImplTest {
+    @Qualifier("documentsDaoJpaImpl")
     @Autowired
     private DocumentsDAO documentsDAO;
+    @Qualifier("documentTypeDaoJpaImpl")
     @Autowired
     private DocumentTypeDAO documentTypeDAO;
 
     @Before
-    public void init() throws SQLException, IOException {
+    public void init() throws SQLException {
         documentsDAO.deleteAll();
     }
 
@@ -55,7 +57,7 @@ public class DocumentsDAOImplTest {
         documentsDAO.createNewDocument(document);
         Document create = documentsDAO.findAll().get(0);
         Document newVersion = documentsDAO.findAll().get(0);
-        newVersion.setImportance(Importance.HIGH);
+        newVersion.setImportance(Importance.high);
         newVersion.setDescription("This is new version of test documents!");
         documentsDAO.createNewVersionByDocument(create, newVersion);
         List<Document> documents = documentsDAO.findAll();
@@ -82,7 +84,7 @@ public class DocumentsDAOImplTest {
         document.setName("test-document" + LocalDateTime.now());
         document.setParentId(null);
         document.setAvailable(true);
-        document.setImportance(Importance.LOW);
+        document.setImportance(Importance.low);
         document.setDescription("This is test document!");
         int type = documentTypeDAO.getAll().get(0).getId();
         document.setTypeId(type);

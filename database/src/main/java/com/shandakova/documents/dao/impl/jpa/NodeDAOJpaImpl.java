@@ -1,4 +1,4 @@
-package com.shandakova.documents.dao.impl;
+package com.shandakova.documents.dao.impl.jpa;
 
 import com.shandakova.documents.dao.DirectoriesDAO;
 import com.shandakova.documents.dao.DocumentsDAO;
@@ -6,7 +6,6 @@ import com.shandakova.documents.dao.NodeDAO;
 import com.shandakova.documents.entities.Directory;
 import com.shandakova.documents.entities.Document;
 import com.shandakova.documents.entities.Node;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
@@ -14,14 +13,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
-@Repository("nodeDaoSqlImpl")
-public class NodeDAOImpl implements NodeDAO {
+@Repository("nodeDaoJpaImpl")
+public class NodeDAOJpaImpl implements NodeDAO {
     final DocumentsDAO documentsDAO;
     final DirectoriesDAO directoriesDAO;
 
-    public NodeDAOImpl(@Qualifier("documentsDaoSqlImpl") DocumentsDAO documentsDAO,
-                       @Qualifier("directoriesDaoSqlImpl") DirectoriesDAO directoriesDAO) {
+    public NodeDAOJpaImpl(@Qualifier("documentsDaoJpaImpl") DocumentsDAO documentsDAO,
+                          @Qualifier("directoriesDaoJpaImpl") DirectoriesDAO directoriesDAO) {
         this.documentsDAO = documentsDAO;
         this.directoriesDAO = directoriesDAO;
     }
@@ -44,9 +42,7 @@ public class NodeDAOImpl implements NodeDAO {
             if (isDescOrder) res *= -1;
             return res;
         });
-        log.info("Get nodes by parent Id.");
         return nodes;
     }
-
 
 }

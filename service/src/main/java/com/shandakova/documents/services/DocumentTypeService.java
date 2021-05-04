@@ -3,6 +3,7 @@ package com.shandakova.documents.services;
 import com.shandakova.documents.dao.DocumentTypeDAO;
 import com.shandakova.documents.dto.DocumentTypeDTO;
 import com.shandakova.documents.entities.DocumentType;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -11,9 +12,10 @@ import java.util.List;
 
 @Service
 public class DocumentTypeService {
+
     private DocumentTypeDAO documentTypeDAO;
 
-    public DocumentTypeService(DocumentTypeDAO documentTypeDAO) {
+    public DocumentTypeService(@Qualifier("documentTypeDaoJpaImpl") DocumentTypeDAO documentTypeDAO) {
         this.documentTypeDAO = documentTypeDAO;
     }
 

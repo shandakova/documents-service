@@ -3,10 +3,11 @@ package com.shandakova.documents.dao;
 import com.shandakova.documents.ConnectionPool;
 import com.shandakova.documents.dao.config.AppConfig;
 import com.shandakova.documents.entities.Directory;
-import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -29,16 +30,16 @@ public class DirectoriesDAOImplTest {
     @Autowired
     private ConnectionPool connectionPool;
     @Autowired
+    @Qualifier("directoriesDaoJpaImpl")
     private DirectoriesDAO directoriesDAO;
 
-    @After
+    @Before
     public void shutdown() throws SQLException {
         directoriesDAO.deleteAll();
     }
 
     @Test
     public void testCreateDirectory() throws SQLException {
-        directoriesDAO.deleteAll();
         List<Directory> allDirectories = directoriesDAO.findAllDirectories();
         int size = allDirectories.size();
 
@@ -51,7 +52,6 @@ public class DirectoriesDAOImplTest {
 
     @Test
     public void testUpdateById() throws SQLException {
-        directoriesDAO.deleteAll();
         saveTestDirectory();
         saveTestDirectory();
         Directory directory = directoriesDAO.findAllDirectories().get(0);
@@ -91,7 +91,6 @@ public class DirectoriesDAOImplTest {
 
     @Test
     public void testCreateManyDirectories() throws SQLException {
-        directoriesDAO.deleteAll();
         List<Directory> directories = new ArrayList<>();
         int numberCreatedDirectories = 5;
         for (int i = 0; i < numberCreatedDirectories; i++) {
@@ -157,6 +156,7 @@ public class DirectoriesDAOImplTest {
         for (int i = 0; i < dirNumber - 1; i++) {
             LocalDateTime curr = directories.get(i).getCreationDateTime();
             LocalDateTime next = directories.get(i + 1).getCreationDateTime();
+            System.err.println(curr + " " + next);
             assertTrue(curr.isAfter(next));
         }
     }

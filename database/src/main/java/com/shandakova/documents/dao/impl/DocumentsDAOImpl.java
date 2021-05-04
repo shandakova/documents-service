@@ -130,7 +130,7 @@ public class DocumentsDAOImpl implements DocumentsDAO {
         doc.setCreationDateTime(res.getObject("creation_datetime",
                 OffsetDateTime.class).toLocalDateTime());
         doc.setVerified(res.getBoolean("verified"));
-        Importance importance = Importance.valueOf(res.getString("importance").toUpperCase());
+        Importance importance = Importance.valueOf(res.getString("importance"));
         doc.setImportance(importance);
     }
 

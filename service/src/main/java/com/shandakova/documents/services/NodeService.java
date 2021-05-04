@@ -3,6 +3,7 @@ package com.shandakova.documents.services;
 import com.shandakova.documents.dao.NodeDAO;
 import com.shandakova.documents.dto.NodeDTO;
 import com.shandakova.documents.entities.Node;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -13,7 +14,7 @@ import java.util.List;
 public class NodeService {
     private NodeDAO nodeDAO;
 
-    public NodeService(NodeDAO nodeDAO) {
+    public NodeService(@Qualifier("nodeDaoJpaImpl") NodeDAO nodeDAO) {
         this.nodeDAO = nodeDAO;
     }
 
