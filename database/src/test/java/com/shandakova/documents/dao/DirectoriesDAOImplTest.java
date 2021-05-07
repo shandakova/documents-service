@@ -3,6 +3,7 @@ package com.shandakova.documents.dao;
 import com.shandakova.documents.ConnectionPool;
 import com.shandakova.documents.dao.config.AppConfig;
 import com.shandakova.documents.entities.Directory;
+import com.shandakova.documents.entities.Node;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,13 +60,14 @@ public class DirectoriesDAOImplTest {
         String newName = "new-cool-name" + LocalDateTime.now();
         directory.setName(newName);
         directory.setAvailable(false);
-        directory.setParentId(directory2.getId());
+        directory.setParent(directory2);
         directoriesDAO.updateByID(directory);
         List<Directory> directories = directoriesDAO.findAllDirectories();
-        boolean isDirectoryUpdated = directories.stream().anyMatch(d -> d.getId().equals(directory.getId())
-                && d.getName().equals(newName)
-                && d.getParentId().equals(directory2.getId())
-                && d.getCreationDateTime().equals(directory.getCreationDateTime()));
+        boolean isDirectoryUpdated = directories.stream().anyMatch(
+                d -> d.getId().equals(directory.getId())
+                        && d.getName().equals(newName)
+                        && d.getParent().getId().equals(directory2.getId())
+                        && d.getCreationDateTime().equals(directory.getCreationDateTime()));
         assertTrue(isDirectoryUpdated);
 
     }
@@ -79,14 +81,14 @@ public class DirectoriesDAOImplTest {
     private Directory createAndFillTestDirectory() {
         Directory directory = new Directory();
         directory.setName("test-directory" + LocalDateTime.now());
-        directory.setParentId(null);
+        directory.setParent(null);
         directory.setAvailable(true);
         return directory;
     }
 
     private boolean isDirectoryExistInList(Directory directory, List<Directory> directories) {
         return directories.stream().anyMatch(d -> d.getName().equals(directory.getName()) &&
-                Objects.equals(d.getParentId(), directory.getParentId()));
+                Objects.equals(d.getParent(), directory.getParent()));
     }
 
     @Test
@@ -122,7 +124,7 @@ public class DirectoriesDAOImplTest {
         Directory directory = findByIdInList(directories, id);
         boolean flag = true;
         flag = directory.getName().equals(set.getString("name")) &&
-                directory.getParentId().equals(set.getObject("parent_id", Integer.class)) &&
+                directory.getParent().equals(set.getObject("parent_id", Node.class)) &&
                 directory.getCreationDateTime().equals(set.getObject("creation_datetime", OffsetDateTime.class)
                         .toLocalDateTime());
         return flag;

@@ -37,9 +37,11 @@ public class DocumentsDAOJpaImpl implements DocumentsDAO {
     }
 
     @Override
-    public void createNewVersionByDocument(Document oldVersion, Document newVersion) {
-        newVersion.setPreviousVersionId(oldVersion.getId());
-        newVersion.setVersionNumber(oldVersion.getVersionNumber() + 1);
+    public void createNewVersionByDocument(Integer oldVersionId, Document newVersion) throws SQLException {
+        Document parent = documentsRepository.findById(oldVersionId).orElseThrow(() ->
+                new SQLException("No old version with id" + oldVersionId));
+        newVersion.setPreviousVersion(parent);
+        newVersion.setVersionNumber(parent.getVersionNumber() + 1);
         newVersion.setCreationDateTime(LocalDateTime.now());
         newVersion.setAvailable(true);
         newVersion.setId(null);

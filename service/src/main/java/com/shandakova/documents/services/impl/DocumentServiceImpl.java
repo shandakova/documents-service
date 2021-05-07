@@ -29,7 +29,7 @@ public class DocumentServiceImpl implements DocumentService {
         document.setImportance(documentDTO.getImportance());
         document.setName(documentDTO.getName());
         document.setTypeId(documentDTO.getTypeId());
-        document.setParentId(documentDTO.getParentId());
+        document.setParent(documentDTO.getParent());
         document.setVersionNumber(documentDTO.getVersionNumber());
     }
 
@@ -40,6 +40,6 @@ public class DocumentServiceImpl implements DocumentService {
                 .filter(doc -> doc.getId().equals(documentDTO.getId())).findFirst()
                 .orElseThrow(() -> new SQLException("There is no document with id" + document.getId()));
         document.setVerified(oldVersion.isVerified());
-        documentsDAO.createNewVersionByDocument(oldVersion, document);
+        documentsDAO.createNewVersionByDocument(oldVersion.getId(), document);
     }
 }

@@ -22,6 +22,4 @@ public class DocumentFile {
     @JoinColumn(name = "documents_id", nullable = false)
     @ManyToOne(targetEntity = Document.class)
     private Document document;
-    @Transient
-    private Integer documentId;
 }

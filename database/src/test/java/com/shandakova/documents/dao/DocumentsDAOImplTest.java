@@ -2,6 +2,7 @@ package com.shandakova.documents.dao;
 
 import com.shandakova.documents.dao.config.AppConfig;
 import com.shandakova.documents.entities.Document;
+import com.shandakova.documents.entities.DocumentType;
 import com.shandakova.documents.entities.enums.Importance;
 import org.junit.After;
 import org.junit.Before;
@@ -47,7 +48,7 @@ public class DocumentsDAOImplTest {
         assertEquals(document.getDescription(), created.getDescription());
         assertEquals(document.getImportance(), created.getImportance());
         assertEquals(0, created.getVersionNumber().intValue());
-        assertNull(created.getPreviousVersionId());
+        assertNull(created.getPreviousVersion());
         assertNotNull(created.getCreationDateTime());
     }
 
@@ -59,7 +60,7 @@ public class DocumentsDAOImplTest {
         Document newVersion = documentsDAO.findAll().get(0);
         newVersion.setImportance(Importance.HIGH);
         newVersion.setDescription("This is new version of test documents!");
-        documentsDAO.createNewVersionByDocument(create, newVersion);
+        documentsDAO.createNewVersionByDocument(create.getId(), newVersion);
         List<Document> documents = documentsDAO.findAll();
         assertEquals(2, documents.size());
         Document newVersionDB, oldVersionDB;
@@ -70,9 +71,9 @@ public class DocumentsDAOImplTest {
             newVersionDB = documents.get(1);
             oldVersionDB = documents.get(0);
         }
-        assertNotNull(newVersionDB.getPreviousVersionId());
-        assertNull(oldVersionDB.getPreviousVersionId());
-        assertEquals((int) newVersionDB.getPreviousVersionId(), oldVersionDB.getId().intValue());
+        assertNotNull(newVersionDB.getPreviousVersion());
+        assertNull(oldVersionDB.getPreviousVersion());
+        assertEquals(newVersionDB.getPreviousVersion().getId(), oldVersionDB.getId());
         assertEquals(newVersionDB.getName(), oldVersionDB.getName());
         assertEquals(1, newVersionDB.getVersionNumber().intValue());
         assertEquals(newVersion.getImportance(), newVersionDB.getImportance());
@@ -82,12 +83,12 @@ public class DocumentsDAOImplTest {
     private Document createAndFillTestDocument() throws SQLException {
         Document document = new Document();
         document.setName("test-document" + LocalDateTime.now());
-        document.setParentId(null);
+        document.setParent(null);
         document.setAvailable(true);
         document.setImportance(Importance.LOW);
         document.setDescription("This is test document!");
-        int type = documentTypeDAO.getAll().get(0).getId();
-        document.setTypeId(type);
+        DocumentType type = documentTypeDAO.getAll().get(0);
+        document.setType(type);
         return document;
     }
 

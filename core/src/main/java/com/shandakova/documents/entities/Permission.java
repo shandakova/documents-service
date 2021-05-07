@@ -16,10 +16,6 @@ public class Permission {
     @SequenceGenerator(name = "permission_seq",
             sequenceName = "table_permissions_id_seq", allocationSize = 1)
     private Integer id;
-    @Transient
-    private Integer userId;
-    @Transient
-    private Integer nodeId;
     @Enumerated(EnumType.STRING)
     private Access access;
     @ManyToOne

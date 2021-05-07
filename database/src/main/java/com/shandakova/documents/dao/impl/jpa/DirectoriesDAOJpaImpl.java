@@ -39,9 +39,10 @@ public class DirectoriesDAOJpaImpl implements DirectoriesDAO {
     public void updateByID(Directory directory) throws SQLException {
         Directory oldDirectory = directoriesRepository.findById(directory.getId())
                 .orElseThrow(() -> new SQLException("There are no directory with id" + directory.getId()));
+        oldDirectory.setId(directory.getId());
         oldDirectory.setName(directory.getName());
         oldDirectory.setAvailable(directory.isAvailable());
-        oldDirectory.setParentId(directory.getParentId());
+        oldDirectory.setParent(directory.getParent());
         directoriesRepository.save(oldDirectory);
     }
 

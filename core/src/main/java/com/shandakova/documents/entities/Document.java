@@ -14,9 +14,9 @@ import javax.persistence.*;
 public class Document extends Node {
     @Column(name = "description")
     private String description;
-
-    @Column(name = "type_id")
-    private Integer typeId;
+    @ManyToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "type_id")
+    private DocumentType type;
     @Column(name = "importance", nullable = false)
     @Enumerated(EnumType.STRING)
     private Importance importance;
@@ -24,6 +24,7 @@ public class Document extends Node {
     private Integer versionNumber;
     @Column(name = "verified")
     private boolean verified;
-    @Column(name = "previous_version_id")
-    private Integer previousVersionId;
+    @ManyToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "previous_version_id")
+    private Document previousVersion;
 }

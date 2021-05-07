@@ -22,8 +22,9 @@ public abstract class Node {
     private String name;
     @Column
     private boolean available;
-    @Column(name = "parent_id")
-    private Integer parentId;
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "parent_id")
+    private Node parent;
     @Column(name = "creation_datetime", nullable = false)
     private LocalDateTime creationDateTime;
 }

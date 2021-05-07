@@ -3,6 +3,7 @@ package com.shandakova.documents.dao;
 import com.shandakova.documents.dao.config.AppConfig;
 import com.shandakova.documents.entities.Directory;
 import com.shandakova.documents.entities.Document;
+import com.shandakova.documents.entities.DocumentType;
 import com.shandakova.documents.entities.Node;
 import com.shandakova.documents.entities.enums.Importance;
 import org.junit.After;
@@ -71,17 +72,17 @@ public class NodeDAOImplTest {
 
     private void fillDirectory(Directory directory) {
         directory.setName("test-directory" + LocalDateTime.now());
-        directory.setParentId(null);
+        directory.setParent(null);
         directory.setAvailable(true);
     }
 
     private void fillDocument(Document document) throws SQLException {
         document.setName("test-document" + LocalDateTime.now());
-        document.setParentId(null);
+        document.setParent(null);
         document.setImportance(Importance.LOW);
         document.setDescription("This is test document!");
-        int type = documentTypeDAO.getAll().get(0).getId();
-        document.setTypeId(type);
+        DocumentType type = documentTypeDAO.getAll().get(0);
+        document.setType(type);
     }
 
 }
