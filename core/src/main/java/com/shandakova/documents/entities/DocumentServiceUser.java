@@ -14,12 +14,13 @@ public class DocumentServiceUser {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
-    @Column
+    @Column(name = "login", nullable = false)
     private String login;
-    @Column
+    @Column(name = "passwordHash", nullable = false)
     private String passwordHash;
+    @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
-    @Column
+    @Column(name = "mail", nullable = false)
     private String mail;
 }

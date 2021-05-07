@@ -31,7 +31,7 @@ public class DocumentsDAOJpaImpl implements DocumentsDAO {
         document.setAvailable(true);
         document.setVersionNumber(0);
         if (document.getImportance() == null) {
-            document.setImportance(Importance.low);
+            document.setImportance(Importance.LOW);
         }
         documentsRepository.save(document);
     }
@@ -44,7 +44,7 @@ public class DocumentsDAOJpaImpl implements DocumentsDAO {
         newVersion.setAvailable(true);
         newVersion.setId(null);
         if (newVersion.getImportance() == null) {
-            newVersion.setImportance(Importance.low);
+            newVersion.setImportance(Importance.LOW);
         }
         documentsRepository.save(newVersion);
     }

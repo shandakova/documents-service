@@ -18,12 +18,12 @@ public abstract class Node {
             sequenceName = "table_nodes_id_seq", allocationSize = 1)
     @Column(updatable = false, nullable = false)
     private Integer id;
-    @Column
+    @Column(name = "name", nullable = false)
     private String name;
     @Column
     private boolean available;
     @Column(name = "parent_id")
     private Integer parentId;
-    @Column(name = "creation_datetime")
+    @Column(name = "creation_datetime", nullable = false)
     private LocalDateTime creationDateTime;
 }

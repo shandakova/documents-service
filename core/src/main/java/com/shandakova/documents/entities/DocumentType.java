@@ -15,6 +15,6 @@ public class DocumentType {
     @SequenceGenerator(name = "type_seq",
             sequenceName = "table_types_id_seq", allocationSize = 1)
     private Integer id;
-    @Column
+    @Column(name = "name", nullable = false)
     private String name;
 }

@@ -17,9 +17,9 @@ public class DocumentFile {
     @SequenceGenerator(name = "files_seq",
             sequenceName = "table_files_id_seq", allocationSize = 1)
     private Integer id;
-    @Column(name = "creation_datetime")
+    @Column(name = "creation_datetime", nullable = false)
     private LocalDateTime creationDateTime;
-    @JoinColumn(name = "documents_id")
+    @JoinColumn(name = "documents_id", nullable = false)
     @ManyToOne(targetEntity = Document.class)
     private Document document;
     @Transient

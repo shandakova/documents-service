@@ -28,12 +28,12 @@ public class NodeDAOImplTest {
     @Qualifier("nodeDaoJpaImpl")
     NodeDAO nodeDAO;
     @Autowired
-    @Qualifier("documentsDaoSqlImpl")
+    @Qualifier("documentsDaoJpaImpl")
     DocumentsDAO documentsDAO;
     @Autowired
-    @Qualifier("directoriesDaoSqlImpl")
+    @Qualifier("directoriesDaoJpaImpl")
     DirectoriesDAO directoriesDAO;
-    @Qualifier("documentTypeDaoSqlImpl")
+    @Qualifier("documentTypeDaoJpaImpl")
     @Autowired
     DocumentTypeDAO documentTypeDAO;
 
@@ -78,7 +78,7 @@ public class NodeDAOImplTest {
     private void fillDocument(Document document) throws SQLException {
         document.setName("test-document" + LocalDateTime.now());
         document.setParentId(null);
-        document.setImportance(Importance.low);
+        document.setImportance(Importance.LOW);
         document.setDescription("This is test document!");
         int type = documentTypeDAO.getAll().get(0).getId();
         document.setTypeId(type);

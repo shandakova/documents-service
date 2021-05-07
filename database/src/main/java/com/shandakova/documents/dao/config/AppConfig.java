@@ -19,8 +19,8 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan(basePackages = "com.shandakova.documents")
-@EntityScan(basePackages = {"com.shandakova.documents.entities", "com.shandakova.documents.entities.type"})
+@ComponentScan(basePackages = {"com.shandakova.documents"})
+@EntityScan(basePackages = {"com.shandakova.documents.entities"})
 @PropertySource("classpath:database.properties")
 @EnableJpaRepositories(basePackages = {"com.shandakova.documents.dao.impl.jpa.repository"})
 @EnableTransactionManagement

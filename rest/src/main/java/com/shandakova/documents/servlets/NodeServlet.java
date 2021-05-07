@@ -3,6 +3,7 @@ package com.shandakova.documents.servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shandakova.documents.dto.NodeDTO;
 import com.shandakova.documents.services.NodeService;
+import com.shandakova.documents.services.impl.NodeServiceImpl;
 import com.shandakova.documents.servlets.context.ApplicationContextHolder;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,10 +17,10 @@ import java.util.List;
 
 @Slf4j
 public class NodeServlet extends HttpServlet {
-    private NodeService nodeService;
+    private NodeService nodeServiceImpl;
 
     public NodeServlet() {
-        nodeService = ApplicationContextHolder.getApplicationContext().getBean(NodeService.class);
+        nodeServiceImpl = ApplicationContextHolder.getApplicationContext().getBean(NodeServiceImpl.class);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class NodeServlet extends HttpServlet {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 log.error("GET REQUEST: error number of parameters");
             } else {
-                List<NodeDTO> nodes = nodeService.getAllByParentId(parentId, order);
+                List<NodeDTO> nodes = nodeServiceImpl.getAllByParentId(parentId, order);
                 ObjectMapper mapper = new ObjectMapper();
                 String jsonString = mapper.writeValueAsString(nodes);
                 resp.getOutputStream().write(jsonString.getBytes(StandardCharsets.UTF_8));

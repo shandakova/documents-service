@@ -3,6 +3,7 @@ package com.shandakova.documents.servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shandakova.documents.dto.DocumentDTO;
 import com.shandakova.documents.services.DocumentService;
+import com.shandakova.documents.services.impl.DocumentServiceImpl;
 import com.shandakova.documents.servlets.context.ApplicationContextHolder;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +21,7 @@ public class DocumentServlet extends HttpServlet {
 
     public DocumentServlet() {
         super();
-        documentService = ApplicationContextHolder.getApplicationContext().getBean(DocumentService.class);
+        documentService = ApplicationContextHolder.getApplicationContext().getBean(DocumentServiceImpl.class);
     }
 
     @Override

@@ -57,7 +57,7 @@ public class DocumentsDAOImplTest {
         documentsDAO.createNewDocument(document);
         Document create = documentsDAO.findAll().get(0);
         Document newVersion = documentsDAO.findAll().get(0);
-        newVersion.setImportance(Importance.high);
+        newVersion.setImportance(Importance.HIGH);
         newVersion.setDescription("This is new version of test documents!");
         documentsDAO.createNewVersionByDocument(create, newVersion);
         List<Document> documents = documentsDAO.findAll();
@@ -84,7 +84,7 @@ public class DocumentsDAOImplTest {
         document.setName("test-document" + LocalDateTime.now());
         document.setParentId(null);
         document.setAvailable(true);
-        document.setImportance(Importance.low);
+        document.setImportance(Importance.LOW);
         document.setDescription("This is test document!");
         int type = documentTypeDAO.getAll().get(0).getId();
         document.setTypeId(type);

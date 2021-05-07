@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shandakova.documents.dto.DirectoryDTO;
 import com.shandakova.documents.services.DirectoriesService;
+import com.shandakova.documents.services.impl.DirectoriesServiceImpl;
 import com.shandakova.documents.servlets.context.ApplicationContextHolder;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,7 +23,7 @@ public class DirectoryServlet extends HttpServlet {
 
     public DirectoryServlet() {
         super();
-        directoriesService = ApplicationContextHolder.getApplicationContext().getBean(DirectoriesService.class);
+        directoriesService = ApplicationContextHolder.getApplicationContext().getBean(DirectoriesServiceImpl.class);
     }
 
     @Override
