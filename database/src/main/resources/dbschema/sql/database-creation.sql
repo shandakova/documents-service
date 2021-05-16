@@ -1,11 +1,14 @@
 CREATE SEQUENCE table_nodes_id_seq;
 
-CREATE TABLE IF NOT EXISTS nodes (
-    id                int constraint node_pkey  PRIMARY KEY DEFAULT nextval('table_nodes_id_seq'),
+CREATE TABLE IF NOT EXISTS nodes
+(
+    id                int
+        constraint node_pkey PRIMARY KEY DEFAULT nextval('table_nodes_id_seq'),
     name              character varying(45) NOT NULL,
     parent_id         int,
     available         boolean               NOT NULL,
-    creation_datetime timestamptz           NOT NULL
+    creation_datetime timestamptz           NOT NULL,
+    node_type         character varying(10) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS directories
@@ -49,10 +52,10 @@ CREATE TYPE user_role AS ENUM ('USER','ADMIN');
 CREATE TABLE IF NOT EXISTS users
 (
     id            int PRIMARY KEY DEFAULT nextval('table_users_id_seq'),
-    login         character varying(45)  NOT NULL,
-    password_hash character varying(100) NOT NULL,
-    role          user_role              NOT NULL,
-    mail          character varying(45)  NOT NULL
+    login         character varying(45) UNIQUE NOT NULL,
+    password_hash character varying(100)       NOT NULL,
+    role          user_role                    NOT NULL,
+    mail          character varying(45)        NOT NULL
 );
 
 CREATE TYPE access_type AS ENUM ('NONE','READ','WRITE','VERIFY');

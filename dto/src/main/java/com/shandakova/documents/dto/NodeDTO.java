@@ -16,4 +16,6 @@ public class NodeDTO {
     private String name;
     private Integer parentId;
     private LocalDateTime creationDateTime;
+    private String nodeType;
+
 }

@@ -6,11 +6,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface DirectoriesDAO {
-    void create(Directory directory) throws SQLException;
+    Directory create(Directory directory) throws SQLException;
 
-    void createMany(List<Directory> directoryList) throws SQLException;
+    List<Directory> createMany(List<Directory> directoryList) throws SQLException;
 
     void updateByID(Directory directory) throws SQLException;
+
+    Directory findById(Integer id) throws SQLException;
 
     List<Directory> findAllDirectories() throws SQLException;
 

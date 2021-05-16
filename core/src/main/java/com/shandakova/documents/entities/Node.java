@@ -10,6 +10,10 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(
+        discriminatorType = DiscriminatorType.STRING,
+        name = "node_type"
+)
 @Table(name = "nodes")
 public abstract class Node {
     @Id
@@ -22,9 +26,11 @@ public abstract class Node {
     private String name;
     @Column
     private boolean available;
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name = "parent_id")
     private Node parent;
     @Column(name = "creation_datetime", nullable = false)
     private LocalDateTime creationDateTime;
+    @Column(name = "node_type", insertable = false, updatable = false)
+    private String nodeType;
 }

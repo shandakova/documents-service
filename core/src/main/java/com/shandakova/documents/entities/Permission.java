@@ -18,10 +18,10 @@ public class Permission {
     private Integer id;
     @Enumerated(EnumType.STRING)
     private Access access;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private DocumentServiceUser user;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "node_id", nullable = false)
     private Node node;
 }

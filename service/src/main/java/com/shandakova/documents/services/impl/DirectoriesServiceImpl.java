@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service()
+@Service
 public class DirectoriesServiceImpl implements DirectoriesService {
 
     private DirectoriesDAO directoriesDAO;
@@ -23,22 +23,26 @@ public class DirectoriesServiceImpl implements DirectoriesService {
     public void create(DirectoryDTO directoryDTO) throws SQLException {
         Directory directory = new Directory();
         fillDirectoryByDirectoryDTO(directoryDTO, directory);
-        directoriesDAO.create(directory);
+        Directory dir = directoriesDAO.create(directory);
     }
 
-    private void fillDirectoryByDirectoryDTO(DirectoryDTO directoryDTO, Directory directory) {
+    private void fillDirectoryByDirectoryDTO(DirectoryDTO directoryDTO, Directory directory) throws SQLException {
         directory.setId(directoryDTO.getId());
-        directory.setParentId(directoryDTO.getParentId());
+        if (directoryDTO.getParentId() != null) {
+            directory.setParent(directoriesDAO.findById(directoryDTO.getId()));
+        } else {
+            directory.setParent(null);
+        }
         directory.setName(directoryDTO.getName());
     }
 
     public void createMany(List<DirectoryDTO> directoriesDTO) throws SQLException {
         List<Directory> directories = new ArrayList<>();
-        directoriesDTO.forEach(directoryDTO -> {
+        for (DirectoryDTO directoryDTO : directoriesDTO) {
             Directory directory = new Directory();
             fillDirectoryByDirectoryDTO(directoryDTO, directory);
             directories.add(directory);
-        });
+        }
         directoriesDAO.createMany(directories);
     }
 

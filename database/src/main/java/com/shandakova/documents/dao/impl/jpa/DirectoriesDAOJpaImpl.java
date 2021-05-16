@@ -3,6 +3,7 @@ package com.shandakova.documents.dao.impl.jpa;
 import com.shandakova.documents.dao.DirectoriesDAO;
 import com.shandakova.documents.dao.impl.jpa.repository.DirectoriesRepository;
 import com.shandakova.documents.entities.Directory;
+import com.shandakova.documents.entities.enums.NodeType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -20,19 +21,21 @@ public class DirectoriesDAOJpaImpl implements DirectoriesDAO {
     }
 
     @Override
-    public void create(Directory directory) throws SQLException {
+    public Directory create(Directory directory) throws SQLException {
         directory.setCreationDateTime(LocalDateTime.now());
         directory.setAvailable(true);
-        directoriesRepository.save(directory);
+        directory.setNodeType(NodeType.Values.DIRECTORY);
+        return directoriesRepository.save(directory);
     }
 
     @Override
-    public void createMany(List<Directory> directoryList) {
+    public List<Directory> createMany(List<Directory> directoryList) {
         for (int i = 0; i < directoryList.size(); i++) {
             directoryList.get(i).setCreationDateTime(LocalDateTime.now());
             directoryList.get(i).setAvailable(true);
+            directoryList.get(i).setNodeType(NodeType.Values.DIRECTORY);
         }
-        directoriesRepository.saveAll(directoryList);
+        return directoriesRepository.saveAll(directoryList);
     }
 
     @Override
@@ -42,8 +45,16 @@ public class DirectoriesDAOJpaImpl implements DirectoriesDAO {
         oldDirectory.setId(directory.getId());
         oldDirectory.setName(directory.getName());
         oldDirectory.setAvailable(directory.isAvailable());
+        oldDirectory.setNodeType(NodeType.Values.DIRECTORY);
         oldDirectory.setParent(directory.getParent());
         directoriesRepository.save(oldDirectory);
+    }
+
+    @Override
+    public Directory findById(Integer id) throws SQLException {
+        return directoriesRepository.findById(id).orElseThrow(() ->
+                new SQLException("There are no directory with id" + id)
+        );
     }
 
     @Override

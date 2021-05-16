@@ -4,6 +4,7 @@ import com.shandakova.documents.dao.DocumentsDAO;
 import com.shandakova.documents.dao.impl.jpa.repository.DocumentsRepository;
 import com.shandakova.documents.entities.Document;
 import com.shandakova.documents.entities.enums.Importance;
+import com.shandakova.documents.entities.enums.NodeType;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
@@ -26,29 +27,38 @@ public class DocumentsDAOJpaImpl implements DocumentsDAO {
     }
 
     @Override
-    public void createNewDocument(Document document) {
+    public Document createNewDocument(Document document) {
         document.setCreationDateTime(LocalDateTime.now());
         document.setAvailable(true);
         document.setVersionNumber(0);
+        document.setNodeType(NodeType.Values.DOCUMENT);
         if (document.getImportance() == null) {
             document.setImportance(Importance.LOW);
         }
-        documentsRepository.save(document);
+        if (document.getDescription() == null) {
+            document.setDescription("");
+        }
+        return documentsRepository.save(document);
     }
 
     @Override
-    public void createNewVersionByDocument(Integer oldVersionId, Document newVersion) throws SQLException {
+    public Document createNewVersionByDocument(Integer oldVersionId, Document newVersion) throws SQLException {
         Document parent = documentsRepository.findById(oldVersionId).orElseThrow(() ->
                 new SQLException("No old version with id" + oldVersionId));
         newVersion.setPreviousVersion(parent);
-        newVersion.setVersionNumber(parent.getVersionNumber() + 1);
+        int numVersion = documentsRepository.findByPreviousVersion(parent).size();
+        newVersion.setVersionNumber(numVersion + 1);
         newVersion.setCreationDateTime(LocalDateTime.now());
         newVersion.setAvailable(true);
+        newVersion.setNodeType(NodeType.Values.DOCUMENT);
+        if (newVersion.getDescription() == null) {
+            newVersion.setDescription("");
+        }
         newVersion.setId(null);
         if (newVersion.getImportance() == null) {
             newVersion.setImportance(Importance.LOW);
         }
-        documentsRepository.save(newVersion);
+        return documentsRepository.save(newVersion);
     }
 
     @Override
@@ -59,5 +69,11 @@ public class DocumentsDAOJpaImpl implements DocumentsDAO {
     @Override
     public void deleteAll() throws SQLException {
         documentsRepository.deleteAll();
+    }
+
+    @Override
+    public List<Document> getVersionByDocumentId(Integer id) throws SQLException {
+        Document parent = documentsRepository.findById(id).orElseThrow(() -> new SQLException("No such document"));
+        return documentsRepository.findByPreviousVersion(parent);
     }
 }

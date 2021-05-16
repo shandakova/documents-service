@@ -20,6 +20,6 @@ public class DocumentFile {
     @Column(name = "creation_datetime", nullable = false)
     private LocalDateTime creationDateTime;
     @JoinColumn(name = "documents_id", nullable = false)
-    @ManyToOne(targetEntity = Document.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Document.class)
     private Document document;
 }

@@ -6,6 +6,7 @@ import com.shandakova.documents.entities.Document;
 import com.shandakova.documents.entities.DocumentType;
 import com.shandakova.documents.entities.Node;
 import com.shandakova.documents.entities.enums.Importance;
+import com.shandakova.documents.entities.enums.NodeType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -68,6 +69,48 @@ public class NodeDAOImplTest {
             LocalDateTime next = nodesList.get(i + 1).getCreationDateTime();
             assertTrue(curr.isAfter(next));
         }
+    }
+
+    @Test
+    public void testGetNodesByType() throws SQLException {
+        int num = 5;
+        for (int i = 0; i < num; i++) {
+            Document document = new Document();
+            fillDocument(document);
+            documentsDAO.createNewDocument(document);
+            Directory directory = new Directory();
+            fillDirectory(directory);
+            directoriesDAO.create(directory);
+        }
+        List<Node> nodesList = nodeDAO.getNodesByType(NodeType.DOCUMENT);
+        assertEquals(num, nodesList.size());
+        nodesList.forEach(
+                node -> {
+                    assertEquals(NodeType.Values.DOCUMENT, node.getNodeType());
+                    assertTrue(node.getName().startsWith("test-document"));
+                }
+        );
+    }
+
+    @Test
+    public void testGetNodesByName() throws SQLException {
+        int num = 5;
+        for (int i = 0; i < num; i++) {
+            Document document = new Document();
+            fillDocument(document);
+            documentsDAO.createNewDocument(document);
+            Directory directory = new Directory();
+            fillDirectory(directory);
+            directoriesDAO.create(directory);
+        }
+        List<Node> nodesList = nodeDAO.getNodesByName("test-directory");
+        assertEquals(num, nodesList.size());
+        nodesList.forEach(
+                node -> {
+                    assertEquals(NodeType.Values.DIRECTORY, node.getNodeType());
+                    assertTrue(node.getName().startsWith("test-directory"));
+                }
+        );
     }
 
     private void fillDirectory(Directory directory) {
